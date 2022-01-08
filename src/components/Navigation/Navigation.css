@@ -1,0 +1,141 @@
+.navigation {
+    width: 100%;
+    height: 80px;
+    background: #FFF;
+    border-bottom: 2px solid #e4e4e4;
+    display: flex;
+    justify-content: center;
+    color: #000;
+    position: sticky;
+    top: 0;
+    left: 0;
+}
+
+.nav-wrapper {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1160px;
+    height: 100%;
+}
+
+.nav-brand {
+    text-decoration: none;
+}
+
+.nav-brand  span, i {
+    font-size: 28px;
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: 900;
+}
+
+.nav-brand i {
+    margin-right: 8px;
+    font-size: 24px;
+    color: black;
+}
+
+.period {
+    font-size: 30px!important;
+}
+
+.nav-list {
+    display: flex;
+    flex-direction: row-reverse;
+    list-style: none;
+    width: 540px;
+    align-items: center;
+    font-family: "Roboto", sans-serif!important;
+}
+.nav-item {
+    margin: 0 10px;
+}
+.nav-item a {
+    text-decoration: none;
+    font-weight: 500;
+
+}
+.nav-item > .btn-o {
+    border-color: #000;
+    padding: 6px 12px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+.nav-item > .btn-o i {
+    color: inherit;
+    font-size: inherit;
+}
+.nav-item > .btn-o:hover {
+    color: white;
+    background: black;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+.nav-user {
+    width: 35px;
+    border-radius: 100%;
+    border: 2px solid #535353;
+    border-right-color: #FFFFFF;
+    border-left-color: #FFFFFF;
+    padding: 2px;
+    transition: all 0.3s ease;
+}
+.hoverAn {
+    border: 2px solid #535353;
+    border-top-color: #FFFFFF;
+    border-bottom-color: #FFFFFF;
+    transition: all 0.3s ease;
+}
+.drop-down-container {
+    width: 160px;
+    position: absolute;
+    background: #FFF;
+    margin-left: -20px;
+    margin-top: 10px;
+    border: 1px
+    solid #e4e4e4;
+    border-radius: 8px;
+
+}
+.drop-down-container ul {
+    list-style: none;
+    padding-inline: 0;
+}
+.drop-down-container li > a {
+    padding: 10px 16px;
+    display: block;
+
+}
+.drop-down-container li:hover {
+    box-shadow:0 1px 2px 1px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    border-radius: 8px;
+}
+.drop-down-container span {
+    color: black;
+    font-size: 14px;
+    font-family: "Source Sans Pro", sans-serif;
+}
+.drop-down-container i {
+    color: #535353!important;
+    font-size: 14px;
+    margin-right: 16px;
+    width: 10px;
+}
+.navi-icon {
+    font-size: 14px;
+    color: black;
+    transition: all 0.2s ease;
+}
+.navi-icon:hover {
+    padding: 0 4px;
+}
+.green-accent {
+    background: green!important;
+    border: green!important;
+    color: white!important;
+}
+.green-accent:hover {
+    opacity: 0.9;
+}

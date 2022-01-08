@@ -1,0 +1,171 @@
+.back-effect {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    flex-direction: column;
+    justify-content: center;
+}
+
+.back-effect .navigation {
+    background: transparent;
+    border: none;
+    color: #fff;
+    position: absolute;
+    top: 0;
+}
+.back-effect .nav-item > .btn-o {
+    border-color: #e4e4e4;
+}
+.back-effect .nav-item > .btn-o:hover {
+    border-color: #000000;
+}
+.back-effect .nav-item {
+    color: #e4e4e4;
+}
+.back-effect .nav-item:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.back-effect > .navigation i {
+    color: inherit;
+}
+.back-effect > .navigation button {
+    border-color: #ffffff;
+    color: inherit;
+}
+.back-effect > .navigation button:hover {
+    border-color: black;
+}
+.back-effect > .navigation > .nav-wrapper > .nav-brand {
+
+}
+
+.header {
+    width: 100%;
+    background-size: cover;
+    background: url("./hero-background.webp") no-repeat center;
+    height: 480px;
+}
+
+.wrapper {
+    margin: 40px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 1160px;
+}
+
+.brand-name {
+    position: absolute;
+    top: 35px;
+    width: inherit;
+    text-align: center;
+    text-decoration: none;
+}
+
+.brand-name  span, i {
+    font-size: 28px;
+    color: #FFF;
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: 900;
+}
+
+.brand-name i {
+    margin-right: 8px;
+    font-size: 24px;
+}
+
+.header-content {
+    color: #FFF;
+    text-shadow: #000 8px 8px 40px;
+}
+
+.period {
+    font-size: 30px!important;
+}
+
+.subtitle {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "Source Sans Pro", sans-serif;
+    color: #b7b7b7;
+    padding-left: 4px;
+}
+
+.title {
+    font-size: 64px;
+    margin-block: 10px;
+    padding-block: 0;
+    font-weight: bold;
+    line-height: 52px;
+    font-family: "Source Sans Pro", sans-serif;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+.title i {
+    font-size: 48px;
+    margin-right: 20px;
+}
+
+.header-content p {
+    padding-left: 4px;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: "Roboto", sans-serif;
+    letter-spacing: 1px;
+    width: 540px;
+    line-height: 18px;
+}
+
+.counter {
+    display: flex;
+    flex-direction: column;
+}
+.counter button {
+    font-size: 18px;
+    margin: 10px 0;
+}
+.btn-o {
+    border: 2px solid white;
+    padding: 12px;
+}
+.btn-o-rnd {
+    border-radius: 32px;
+}
+.hero-interact {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.hero-input {
+    background: transparent;
+    border: 2px solid white;
+    outline: none;
+    font-size: 12px;
+    padding: 12px;
+    border-radius: 32px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    width: 200px;
+}
+
+.hero-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.hero-interact i {
+    margin-left: 4px;
+    font-size: 12px;
+}
+.hero-interact button {
+    color: #FFFFFF;
+    margin: 0 10px;
+}
+.navi-icon {
+    color: white;
+}
