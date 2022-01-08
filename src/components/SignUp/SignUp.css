@@ -1,0 +1,144 @@
+.pop-up {
+    background: rgba(0,0,0,0.4);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pop-up-container {
+    z-index: 1001;
+    background: #FFF;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    align-items: center;
+    border-radius: 32px;
+}
+.pop-up-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    color: rgba(0,0,0,0.8);
+}
+.pop-up-title h3 {
+    margin-right: 10px;
+    font-size: 24px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    margin-block-end: 4px;
+}
+.pop-up-title span {
+    font-size: 42px!important;
+    line-height: 40px;
+}
+.pop-up-desc {
+    margin-block-start: 4px;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    color: #535353;
+}
+.pop-up-container form {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.pop-up-container form > fieldset {
+    display: flex;
+    align-items: center;
+    border: none;
+    width: 380px;
+    margin-inline: 0;
+    padding-inline: 0;
+    margin-right: 14px;
+}
+.pop-up-container form > fieldset > input {
+    width: 380px;
+    outline: none;
+    padding: 16px 20px 16px 50px;
+    border: 2px solid #e4e4e4;
+    border-radius: 32px;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+}
+.pop-up-container form > fieldset > input::placeholder {
+    color: #535353;
+    opacity: 0.6;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+}
+.pop-up-container form > fieldset > i {
+    font-size: 14px;
+    color: #535353;
+    line-height: 18px;
+    position: relative;
+    right: -35px;
+}
+button.blue {
+    background: dodgerblue;
+    color: #FFF;
+    width: 120px;
+}
+.pop-up-container > form > button {
+    margin: 10px 0;
+}
+.pop-up-container > form > fieldset > label{
+    display: inline-flex;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    color: #535353;
+}
+.pop-up-container form > fieldset > input[type="checkbox"] {
+    width: max-content;
+    margin-right: 10px;
+}
+.inline-padded {
+    padding-inline: 24px!important;
+}
+.pop-up-container > form a {
+    text-decoration: none;
+    color: dodgerblue;
+    font-weight: 600;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    opacity: 0.8;
+    text-transform: lowercase;
+}
+.pop-up-container > form a:hover {
+    opacity: 1;
+}
+.jc-sb {
+    justify-content: space-between;
+    width: 100%;
+}
+.ai-c {
+    display: flex;
+    align-items: center;
+}
+.bold-alt {
+    font-weight: 700!important;
+    font-size: 36px!important;
+    font-family: "Source Sans Pro", sans-serif!important;
+}
+.bold-alt:after {
+    display: block;
+    content: "";
+    width: 150px;
+    height: 2px;
+    background: grey;
+    position: relative;
+    margin-left: auto;
+
+}
