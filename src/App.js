@@ -6,9 +6,8 @@ import SignUpPage from "./views/SignUpPage";
 import {Logout} from "./api/SignUp";
 import ProfilePage from "./views/ProfilePage";
 import Settings from "./views/Dashboard/Settings";
-import NewStory from "./views/NewStory";
 
-const AuthRoutes = ({children}: {children: JSX.Element}) => {
+const AuthRoutes = ({children}) => {
     let location = useLocation();
     return (
       localStorage.hasOwnProperty("user") ?
@@ -26,7 +25,7 @@ function App() {
           <Route path={"/logout"} element={<AuthRoutes><Logout/></AuthRoutes>} />
           <Route path={"/dashboard"} element={<AuthRoutes><Dashboard/></AuthRoutes>}/>
           <Route path={"/settings"} element={<AuthRoutes><Settings/></AuthRoutes>}/>
-          <Route path={"/new-story"} element={<AuthRoutes><NewStory/></AuthRoutes>}/>
+
           <Route path={"/s/:postURL"} element={<Post/>}/>
           <Route path={"/@:username"} element={<ProfilePage/>}/>
       </Routes>
