@@ -3,7 +3,7 @@ import Home from './views/Home';
 import Post from "./views/Post";
 import Dashboard from "./views/Dashboard";
 import SignUpPage from "./views/SignUpPage";
-import {Logout} from "./api/SignUp";
+import {Logout} from "./api/AuthAPI";
 import ProfilePage from "./views/ProfilePage";
 import Settings from "./views/Dashboard/Settings";
 

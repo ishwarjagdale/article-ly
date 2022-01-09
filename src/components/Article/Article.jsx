@@ -1,14 +1,29 @@
 import React from 'react';
 import './Article.css';
 import ShareButtons from '../../elements/ShareButtons/ShareButtons';
-import {returnGetPost} from "../../api/Posts";
+import {get_post} from "../../api/ArticlesAPI";
 
 class Article extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            post: returnGetPost(this.props.postID)
+            post: {
+                title: "",
+                subtitle: "",
+                author: {id: 0, img: "", name: ""},
+                meta: {date_published: "", likes: 0, response: 0, tag:""},
+                content: ""
+            }
         }
+    }
+
+    componentDidMount() {
+        let article = get_post(window.location.pathname.split("-").pop());
+        article.then(res => {
+            this.setState({
+                post: res
+            })
+        })
     }
 
     render() {

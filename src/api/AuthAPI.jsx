@@ -2,8 +2,7 @@ import axios from "axios";
 import {Navigate} from "react-router-dom";
 
 
-const development_mode = false;
-const AuthAPI = !development_mode ? "https://journal-flask-server.herokuapp.com/auth" : "http://localhost:5000/auth";
+const AuthAPI = process.env.REACT_APP_API_URL + "/auth";
 const SIGN_UP_URL = AuthAPI + "/";
 const LOGIN_URL = AuthAPI + "/login";
 const GET_USER_URL = AuthAPI + "/user";
@@ -72,7 +71,7 @@ function ReloadUser() {
 
 function Logout(e) {
     localStorage.removeItem("user");
-    axios.get("http://localhost:5000/auth/logout").then(r => console.log(r));
+    axios.get(AuthAPI + "/logout", {withCredentials: true}).then(r => console.log(r));
     return (
         <Navigate to={"/"} />
         )

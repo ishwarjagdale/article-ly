@@ -3,7 +3,9 @@ import Article from "../components/Article/Article";
 import Navigation from "../components/Navigation/Navigation";
 import SignUp from "../components/SignUp/SignUp";
 import Footer from "../components/Footer";
-import {LoadUser} from "../api/SignUp";
+import {LoadUser} from "../api/AuthAPI";
+
+
 
 class Post extends React.Component {
     constructor(props) {
@@ -33,7 +35,7 @@ class Post extends React.Component {
                 <Navigation handlePopState={this.handlePopState} parentState={this.state}/>
                 { this.state.popState && !this.state.user && <SignUp parentState={this.state} closePop={this.handlePopState} parentProps={this.props}/> }
                 <div className="content-wrapper">
-                    <Article postID={this.props.match.params.postURL.split("-").pop()}/>
+                    <Article />
                     <div className="sidebar">
 
                     </div>

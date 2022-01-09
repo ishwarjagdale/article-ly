@@ -1,5 +1,5 @@
 import React from 'react';
-import {getUser, LoadUser} from "../api/SignUp";
+import {getUser, LoadUser} from "../api/AuthAPI";
 import Navigation from "../components/Navigation/Navigation";
 
 class ProfilePage extends React.Component {

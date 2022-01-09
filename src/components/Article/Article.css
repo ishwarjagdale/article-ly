@@ -166,3 +166,67 @@ article {
     color: #535353;
     font-size: 14px;
 }
+.ck-content {
+    width: 740px!important;
+    font-size: 16px;
+    font-family: Roboto, "Times New Roman", sans-serif;
+}
+
+.ck-content figure {
+    padding: 10px 0;
+    margin: 0;
+}
+.ck-content figcaption {
+    margin-bottom: 10px;
+}
+
+/* from https://codepen.io/johnfinkdesign/pen/gRvEGq */
+.ck-content blockquote {
+border-left: 4px solid grey;
+color: #1a1a1a;
+font-family: Georgia, Times, "Times New Roman", serif;
+font-size: 1.25em;
+font-style: italic;
+line-height: 1.8em;
+margin: 1.1em -1em;
+padding: 1em 2em;
+position: relative;
+transition: .2s border ease-in-out;
+z-index: 0;
+}
+
+.ck-content img {
+    width: 100%;
+}
+
+.ck-content, .ck-content p {
+    font-weight: 400;
+    color: rgba(0,0,0,0.8) !important;
+    font-size: 16px;
+    word-break:keep-all;
+    line-height: 32px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    letter-spacing: 0.2px;
+    word-spacing: 0.5px;
+}
+.ck-content > ul > li > strong {
+    font-size: 14px;
+}
+
+.ck-content h2 {
+    font-size: 24px!important;
+    font-weight: 600!important;
+    font-family: Roboto,sans-serif;
+}
+
+p.ck-placeholder {
+    font-size: 36px;
+    font-weight: normal;
+    font-family: Georgia, "Times New Roman", sans-serif;
+    margin-top: 20px!important;
+    margin-bottom: 10px!important;
+}
+.ck-focused {
+    border-color: transparent!important;
+    box-shadow: none!important;
+}

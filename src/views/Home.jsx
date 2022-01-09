@@ -3,15 +3,15 @@ import HeroSection from '../components/HeroSection/HeroSection';
 import PostCard from '../components/PostCard/PostCard';
 import SignUp from "../components/SignUp/SignUp";
 import Footer from "../components/Footer";
-import {LoadUser} from "../api/SignUp";
-import {returnGetPosts} from "../api/Posts";
+import {LoadUser} from "../api/AuthAPI";
+import {get_posts} from "../api/ArticlesAPI";
 
 class Home extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            posts: returnGetPosts(),
+            posts: [],
             popState: false,
             email: "",
             activeTab: "login",
@@ -19,6 +19,15 @@ class Home extends React.Component {
         }
 
         this.handlePopState = this.handlePopState.bind(this);
+    }
+    componentDidMount() {
+        let data = get_posts();
+        data.then(res => {
+            this.setState({
+                posts: res
+            })
+        })
+
     }
 
     handlePopState(args) {
@@ -35,7 +44,7 @@ class Home extends React.Component {
                 <div className="content-wrapper">
                     <div id="posts-container">
                         {this.state.posts.map((post) => {
-                            return <PostCard id={post.id} post={post}/>
+                            return <PostCard id={post.id} post={post} key={post.id}/>
                         })}
                     </div>
                     <div className="sidebar">

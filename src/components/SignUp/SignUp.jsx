@@ -1,7 +1,7 @@
 import React from 'react';
 import './SignUp.css';
 import Button from "../../elements/Button/Button";
-import {LoginUser, RegisterUser} from "../../api/SignUp";
+import {LoginUser, RegisterUser} from "../../api/AuthAPI";
 
 class SignUp extends React.Component {
     constructor(props) {

@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const development_mode = false;
-const API_URL = !development_mode ? "https://journal-flask-server.herokuapp.com/api" : "http://localhost:5000/api";
+const API_URL = process.env.REACT_APP_API_URL + "/api"
 const NEW_POST_URL = "/new-story";
 const GET_POSTS_URL = "/posts";
 const GET_POST_URL = "/post/";
@@ -26,36 +25,28 @@ async function new_post(title, subtitle, content, thumbnailURL, tags, user_id) {
 }
 
 async function get_posts() {
-    await axios.get(
+    return await axios.get(
         API_URL + GET_POSTS_URL
-    ).then(res => {
-        if(res.data["resp_code"] === 200) {
-            localStorage.setItem(
-                "posts", JSON.stringify(res.data.response)
-            );
+    ).then(
+        (res) => {
+            if(res.data.resp_code === 200)
+                return res.data.response;
+            else
+                return []
         }
-    });
-}
-
-function returnGetPosts() {
-    get_posts();
-    return JSON.parse(localStorage.getItem("posts"));
+    );
 }
 
 async function get_post(postID) {
-    await axios.get(
+    return await axios.get(
         API_URL + GET_POST_URL + postID
     ).then(res => {
         if(res.data.resp_code === 200) {
-            localStorage.setItem(postID, JSON.stringify(res.data.response));
+            return res.data.response
         } else {
             window.alert("ERROR: " + res.data.response);
         }
     });
 }
-function returnGetPost(postID) {
-    get_post(postID)
-    return JSON.parse(localStorage.getItem(postID));
-}
 
-export { new_post, get_posts, returnGetPosts, get_post, returnGetPost };
+export { new_post, get_posts, get_post };

@@ -1,10 +1,11 @@
 import React from 'react';
 import Navigation from "../../components/Navigation/Navigation";
-import {LoadUser, ReloadUser} from "../../api/SignUp";
+import {LoadUser, ReloadUser} from "../../api/AuthAPI";
 import './Settings.css';
 import Footer from "../../components/Footer";
 import Button from "../../elements/Button/Button";
 import axios from "axios";
+import {getUserSettings} from "../../api/DashAPI";
 
 class Setting extends React.Component {
     constructor(props) {
@@ -44,7 +45,7 @@ class Setting extends React.Component {
     handleSubmit(e) {
         this.handleEdit();
 
-        return axios.post( "https://journal-flask-server.herokuapp.com/api/settings", {key: [this.props.id, this.state.value]}, {withCredentials: true}
+        return axios.post( process.env.REACT_APP_API_URL + "/auth/settings", {key: [this.props.id, this.state.value]}, {withCredentials: true}
         ).then(r => {
             console.log("sett's", r.data);
             if (r.data) {
@@ -134,7 +135,15 @@ class Settings extends React.Component {
 
         this.state = {
             user: LoadUser(),
-            settings:  LoadUser()
+            settings:  {
+                "id": "",
+                "name": "",
+                "username": "",
+                "bio": "",
+                "email": "",
+                "image_url": ""
+            },
+            loading: true
         }
 
         //this.handleChange = this.handleChange.bind(this);
@@ -145,6 +154,16 @@ class Settings extends React.Component {
         this.setState(state => {state.settings[e.target.id] = e.target.value});
     }
 */
+    componentDidMount() {
+        let settings = getUserSettings();
+        settings.then(res => {
+            this.setState({
+                settings: res,
+                loading: false
+            })
+        })
+    }
+
     render() {
 
         return (
@@ -154,7 +173,7 @@ class Settings extends React.Component {
                     <div className="settingAccord">
                         <h2>Settings</h2>
                     </div>
-                    <div className="setting-container">
+                    {   !this.state.loading && <div className="setting-container">
                         <h2>About</h2>
                         <Setting name={"Name"}
                                  id={"name"}
@@ -177,7 +196,7 @@ class Settings extends React.Component {
                                  value={this.state.settings.email}
                                  label={"Your Email: "}
                                  description={["Your email address to contact you, announcements and stuff!"]}/>
-                    </div>
+                    </div>  }
                 </div>
                 <Footer />
             </>

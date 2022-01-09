@@ -1,11 +1,11 @@
 import React from 'react';
 import Navigation from "../components/Navigation/Navigation";
-import {LoadUser} from "../api/SignUp";
+import {LoadUser} from "../api/AuthAPI";
 import "./NewStory.css";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import * as BalloonEditor from "@ckeditor/ckeditor5-build-balloon";
 import Button from "../elements/Button/Button";
-import {new_post} from "../api/Posts";
+import {new_post} from "../api/ArticlesAPI";
 
 
 class NewStory extends React.Component {
