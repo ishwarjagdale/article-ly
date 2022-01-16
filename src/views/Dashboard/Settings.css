@@ -1,8 +1,8 @@
 .container {
     display: flex;
     width: 1140px;
-    height: 100%;
     margin-top: 60px;
+    flex: 2;
 }
 .settingAccord {
     flex: 1;

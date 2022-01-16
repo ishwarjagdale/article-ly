@@ -53,7 +53,9 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 1160px;
+    width: 100vw;
+    height: 400px;
+    align-items: center;
 }
 
 .brand-name {
@@ -79,6 +81,7 @@
 .header-content {
     color: #FFF;
     text-shadow: #000 8px 8px 40px;
+    width: 80vw;
 }
 
 .period {
@@ -115,7 +118,7 @@
     font-weight: normal;
     font-family: "Roboto", sans-serif;
     letter-spacing: 1px;
-    width: 540px;
+    max-width: 540px;
     line-height: 18px;
 }
 
@@ -168,4 +171,10 @@
 }
 .navi-icon {
     color: white;
+}
+
+@media screen and (max-width: 1920px) {
+    .header-content {
+
+    }
 }

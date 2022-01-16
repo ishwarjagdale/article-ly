@@ -2,7 +2,6 @@ import {BrowserRouter as Router, Navigate, Route, Routes, useLocation} from 'rea
 import Home from './views/Home';
 import Post from "./views/Post";
 import Dashboard from "./views/Dashboard";
-import SignUpPage from "./views/SignUpPage";
 import {Logout} from "./api/AuthAPI";
 import ProfilePage from "./views/ProfilePage";
 import Settings from "./views/Dashboard/Settings";
@@ -12,7 +11,7 @@ const AuthRoutes = ({children}) => {
     return (
       localStorage.hasOwnProperty("user") ?
           children :
-          <Navigate to={"/sign-in"} state={{from: location}} replace/>
+          <Navigate to={"/"} state={{from: location}} replace/>
   )
 }
 
@@ -21,7 +20,6 @@ function App() {
     <Router>
       <Routes>
           <Route path={"/"} element={<Home/>} />
-          <Route path={"/sign-in"} element={<SignUpPage/>}/>
           <Route path={"/logout"} element={<AuthRoutes><Logout/></AuthRoutes>} />
           <Route path={"/dashboard"} element={<AuthRoutes><Dashboard/></AuthRoutes>}/>
           <Route path={"/settings"} element={<AuthRoutes><Settings/></AuthRoutes>}/>

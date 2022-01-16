@@ -1,0 +1,132 @@
+.profile-header-hero .navigation {
+    background: transparent;
+    border-bottom: 0;
+}
+.profile-header-hero .nav-brand {
+    display: none;
+}
+/*
+    https://wallpaperaccess.com/full/497086.jpg
+	https://miro.medium.com/max/12000/1*J6TxIq8J4_-RA37HIiBHgw.jpeg
+
+ */
+.profile-header-hero {
+    height: 240px;
+    background: url("/public/img/profile-header.jpg") 0 -80px;
+    background-size: cover;
+}
+.profile-header-cover {
+    height: 100%;
+    background-image: linear-gradient(175deg, #8549a391, #5100ff30);
+    backdrop-filter: blur(1px);
+}
+#userName {
+    position: relative;
+    bottom: -32px;
+    width: 100%;
+    text-align: center;
+    left: auto;
+    font-family: Georgia, "Times New Roman", sans-serif;
+    color: white;
+    font-weight: 500;
+    font-size: 56px;
+    text-shadow: 4px 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.profile-interactions {
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 2px solid #e4e4e4;
+    padding: 0 120px;
+}
+
+.profile-interactions a:hover {
+    color: black;
+}
+
+.profile-header-cover > .navigation, .profile-header-cover .nav-list button {
+    color: white;
+    border-color: white;
+    text-shadow: 1px 1px black;
+}
+
+.profile-header-cover .nav-list button:hover {
+    border-color: black;
+}
+
+.profile-interactions .nav-list {
+    width: auto;
+    margin: 30px 0;
+    padding-left: 0;
+    color: rgba(0,0,0,0.7);
+    font-family: Georgia, "Times New Roman", sans-serif!important;
+}
+
+.profile-interactions .nav-item {
+    margin: 0 10px;
+}
+
+.no-mar {
+    margin: 0!important;
+}
+.p-interact {
+    border-radius: 32px;
+    background-color:dodgerblue;
+    cursor: pointer;
+    color: white;
+    padding: 8px 10px;
+}
+.p-interact span {
+    font-size: 16px;
+    padding: 0 4px;
+}
+.p-interact i {
+    font-size: 14px;
+    padding-left: 0;
+}
+
+.profile-content {
+    display: flex;
+}
+.profile-sidebar {
+    max-width: 250px;
+}
+.profile-posts {
+    max-width: 720px;
+}
+.profile-sidebar img {
+    width: 131px;
+    height: auto;
+}
+p.profile-name {
+    font-family: Georgia, "Times New Roman", sans-serif;
+    font-size: 18px;
+    margin-bottom: 0;
+}
+p.profile-bio {
+    font-family: Georgia, "Times New Roman", sans-serif;
+    font-size: 14px;
+    width: 230px;
+    color: rgba(117, 117, 117, 1);
+    line-height: 18px;
+}
+.overlapper {
+    display: flex;
+    justify-content: flex-end;
+    height: 100%;
+    padding: 60px 0;
+    z-index: 10;
+    width: 350px;
+    position: absolute;
+    top: 0;
+}
+.page-wrapper {
+    width: 100%;
+    position: relative;
+}
+.followBtn {
+    border-color: cornflowerblue;
+    padding: 8px 12px;
+    color: white;
+    background-color: dodgerblue;
+}

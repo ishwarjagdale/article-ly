@@ -177,22 +177,27 @@ class Settings extends React.Component {
                         <h2>About</h2>
                         <Setting name={"Name"}
                                  id={"name"}
+                                 key={"Name"}
                                  value={this.state.settings.name}
                                  description={["Your name appears on your Profile page, as your byline, and in your responses. It is a required field."]}/>
                         <Setting name={"Bio"}
                                  id={"bio"}
-                                 value={""}
+                                 key={"Bio"}
+                                 value={this.state.settings.bio}
                                  description={["Your bio appears on your Profile and next to your stories. Max 160 characters."]}/>
                         <Setting name={"Photo"}
                                  id={"image_url"}
+                                 key={"Photo"}
                                  image={this.state.settings.image_url}
                                  description={["Your photo appears on your Profile page and with your stories across Medium.", "Recommended size: Square, at least 1000 pixels per side. File type: JPG, PNG or GIF."]}/>
                         <Setting name={"Username & URL"}
                                  id={"username"}
+                                 key={"Username & URL"}
                                  value={this.state.settings.username} label={"Username: "}
                                  description={[`URL: https://medium.com/${this.state.settings.username}`]}/>
                         <Setting name={"Email"}
                                  id={"email"}
+                                 key={"Email"}
                                  value={this.state.settings.email}
                                  label={"Your Email: "}
                                  description={["Your email address to contact you, announcements and stuff!"]}/>

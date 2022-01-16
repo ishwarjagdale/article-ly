@@ -1,6 +1,7 @@
 .navigation {
-    width: 100%;
+    width: 100vw;
     height: 80px;
+    max-height: 80px;
     background: #FFF;
     border-bottom: 2px solid #e4e4e4;
     display: flex;
@@ -9,6 +10,8 @@
     position: sticky;
     top: 0;
     left: 0;
+    z-index: 10;
+    flex: 1;
 }
 
 .nav-wrapper {
@@ -16,12 +19,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 1160px;
+
     height: 100%;
+    width: 80vw;
 }
 
 .nav-brand {
     text-decoration: none;
+    display: inline-flex;
+    align-items: baseline;
 }
 
 .nav-brand  span, i {
@@ -41,6 +47,7 @@
 }
 
 .nav-list {
+    margin-left: auto;
     display: flex;
     flex-direction: row-reverse;
     list-style: none;
@@ -49,11 +56,13 @@
     font-family: "Roboto", sans-serif!important;
 }
 .nav-item {
-    margin: 0 10px;
+    margin-left: 20px;
+    white-space: nowrap;
 }
 .nav-item a {
     text-decoration: none;
     font-weight: 500;
+
 
 }
 .nav-item > .btn-o {
@@ -138,4 +147,10 @@
 }
 .green-accent:hover {
     opacity: 0.9;
+}
+
+@media screen and (max-width: 1920px) {
+    .nav-wrapper {
+
+    }
 }

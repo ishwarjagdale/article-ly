@@ -62,7 +62,7 @@ class Navigation extends React.Component {
                                 </li>
 
                                 <li className="nav-item">
-                                    <a href="/sign-in" onClick={this.handleSignIn}>Sign in</a>
+                                    <a href="/" onClick={this.handleSignIn}>Sign in</a>
                                 </li>
 
                             </> :

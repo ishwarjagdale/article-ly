@@ -16,8 +16,8 @@ async function new_post(title, subtitle, content, thumbnailURL, tags, user_id) {
             "tags": tags
         }).then(res => {
         if (res.data["resp_code"] === 200) {
-            let postURL = `/s/${title.replace(" ", "-")}-${res.data["response"]}`;
-            window.location.href = postURL;
+            localStorage.removeItem("new-story");
+            window.location.href = `/s/${title.replace(" ", "-")}-${res.data["response"]}`;
         } else {
             window.alert("An error occurred while publishing your story. Please save it and try again later.");
         }
@@ -49,4 +49,12 @@ async function get_post(postID) {
     });
 }
 
-export { new_post, get_posts, get_post };
+async function likePost(postID) {
+    return await axios.get(
+        API_URL + GET_POST_URL + postID + "/like"
+    ).then(r => {
+        return r.data["resp_code"] === 200 ? r.data.likes : false;
+    });
+}
+
+export { new_post, get_posts, get_post, likePost };

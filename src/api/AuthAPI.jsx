@@ -1,11 +1,10 @@
 import axios from "axios";
 import {Navigate} from "react-router-dom";
-
-
+const API = process.env.REACT_APP_API_URL + "/api"
 const AuthAPI = process.env.REACT_APP_API_URL + "/auth";
 const SIGN_UP_URL = AuthAPI + "/";
 const LOGIN_URL = AuthAPI + "/login";
-const GET_USER_URL = AuthAPI + "/user";
+const GET_USER_URL = API + "/user";
 
 axios.defaults.withCredentials = true;
 
@@ -27,7 +26,6 @@ function RegisterUser(name, email, password) {
 
 function LoginUser(email, password, rememberMe) {
     return axios.post(LOGIN_URL, {"email": email, "password": password, "rememberMe": rememberMe}).then(res => {
-        console.log("Server Response", res);
         if (res.data["resp_code"] === 200) {
             localStorage.setItem("user", JSON.stringify(res.data.user))
             console.log("userLoggedIn", res)
@@ -53,8 +51,7 @@ function LoadUser() {
 
 async function getUser(username) {
     return await axios.get(GET_USER_URL + "/" + username).then(res => {
-        console.log(res);
-        if(res.data["success"]) {
+        if(res.data["resp_code"] === 200) {
             return res.data;
         }
         return res.data;
@@ -62,7 +59,7 @@ async function getUser(username) {
 }
 
 function ReloadUser() {
-    axios.get("http://localhost:5000/api/settings").then(r => {
+    axios.get(AuthAPI + "/settings").then(r => {
         if(r.data["resp_code"] === 200) {
             localStorage.setItem("user", JSON.stringify(r.data["settings"]));
         }
@@ -71,7 +68,7 @@ function ReloadUser() {
 
 function Logout(e) {
     localStorage.removeItem("user");
-    axios.get(AuthAPI + "/logout", {withCredentials: true}).then(r => console.log(r));
+    axios.get(AuthAPI + "/logout", {withCredentials: true}).then(r => console.log("loggedOut", r));
     return (
         <Navigate to={"/"} />
         )

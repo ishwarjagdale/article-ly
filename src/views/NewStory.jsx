@@ -6,6 +6,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import * as BalloonEditor from "@ckeditor/ckeditor5-build-balloon";
 import Button from "../elements/Button/Button";
 import {new_post} from "../api/ArticlesAPI";
+import Footer from "../components/Footer";
 
 
 class NewStory extends React.Component {
@@ -42,6 +43,7 @@ class NewStory extends React.Component {
     handlePreviewChange(e) {
         this.setState(state => {state[e.target.name] = e.target.value})
     }
+
     render() {
         const StoryPreview = () => {
             return (
@@ -79,34 +81,36 @@ class NewStory extends React.Component {
                 <Navigation parentState={this.state} disableNewStory publishStory={this.togglePreview} />
                 <div id={"editor"} className={"story-content"}>
                     <CKEditor
-                        editor={ BalloonEditor }
+                        editor={BalloonEditor}
                         data=""
                         config={
                             {
                                 placeholder: "Write your story"
                             }
                         }
-                        onReady={ editor => {
+                        onReady={editor => {
                             // You can store the "editor" and use when it is needed.
                             this.editor = editor;
-                            console.log( 'Editor is ready to use!', editor );
-                        } }
-                        onChange={ ( event, editor ) => {
+                            console.log('Editor is ready to use!', editor);
+                        }}
+                        onChange={(event, editor) => {
                             const data = editor.getData();
                             this.handleChange(data);
                             localStorage.setItem(
                                 "newStory", data
                             )
-                            console.log( { event, editor, data } );
-                        } }
-                        onBlur={ ( event, editor ) => {
-                            console.log( 'Blur.', editor );
-                        } }
-                        onFocus={ ( event, editor ) => {
-                            console.log( 'Focus.', editor );
-                        } }
+                            console.log({event, editor, data});
+                        }}
+                        onBlur={(event, editor) => {
+                            console.log('Blur.', editor);
+                        }}
+                        onFocus={(event, editor) => {
+                            console.log('Focus.', editor);
+                        }}
                     />
                 </div>
+
+                <Footer />
             </>
         )
     }

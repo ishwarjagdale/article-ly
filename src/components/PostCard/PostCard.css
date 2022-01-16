@@ -1,14 +1,22 @@
 .content-wrapper {
     display: flex;
-    max-width: 1160px;
+    max-width: 1280px;
     margin: 60px auto;
+    padding: 0 20px;
     width: 100%;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 #posts-container {
-    margin-right: 40px;
+    margin: 0 auto;
+    width: 70%;
+    min-width: 400px;
+    flex: 2;
+}
+
+.sidebar {
+    flex: 1;
 }
 
 .post-card {
