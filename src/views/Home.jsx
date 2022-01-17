@@ -15,7 +15,8 @@ class Home extends React.Component {
             popState: false,
             email: "",
             activeTab: "login",
-            user: LoadUser()
+            user: LoadUser(),
+            loaded: false
         }
 
         this.handlePopState = this.handlePopState.bind(this);
@@ -24,7 +25,8 @@ class Home extends React.Component {
         let data = get_posts();
         data.then(res => {
             this.setState({
-                posts: res
+                posts: res,
+                loaded: true
             })
         })
 
@@ -43,9 +45,29 @@ class Home extends React.Component {
                 <HeroSection handleHeroSubmit={this.handlePopState} parentState={this.state}/>
                 <div className="content-wrapper">
                     <div id="posts-container">
-                        {this.state.posts.map((post) => {
-                            return <PostCard id={post.id} post={post} key={post.id}/>
-                        })}
+                        {
+                            this.state.loaded ?
+                                this.state.posts.map((post) => {
+                                    return <PostCard id={post.id} post={post} key={post.id}/>
+                                })
+                            :
+                                <>
+                                    <div className={"a"}>
+                                        <div className={"b"}>
+                                            <div className={"d loading"}/>
+                                            <div className={"e loading"}/>
+                                        </div>
+                                        <div className={"c loading"}/>
+                                    </div>
+                                    <div className={"a"}>
+                                        <div className={"b"}>
+                                            <div className={"d loading"}/>
+                                            <div className={"e loading"}/>
+                                        </div>
+                                        <div className={"c loading"}/>
+                                    </div>
+                                </>
+                        }
                     </div>
                     <div className="sidebar">
 

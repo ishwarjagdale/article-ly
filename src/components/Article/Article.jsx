@@ -42,9 +42,11 @@ class Article extends React.Component {
     render() {
         if(!this.state.loading)
             return(
-                <article id={this.props.postID}>
+                <article key={this.props.postID}>
                     <div className="article-info">
-                        <h1 className="article-title">{ this.state.post.title }</h1>
+                        { this.state.size ? <h1 className="article-title">{this.state.post.title}</h1>
+                        : <a className={"no-decor"} href={`/s/${this.state.post.title.replaceAll(" ", "-")}-${this.state.post.id}`}><h1 className="article-title">{this.state.post.title}</h1></a>
+                        }
                         <h3 className="article-subtitle">{this.state.post.subtitle}</h3>
                         { this.state.size ? <div className="article-meta">
                             <div className="author">

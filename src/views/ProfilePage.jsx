@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import "./ProfilePage.css";
 import Article from "../components/Article/Article";
 import Button from "../elements/Button/Button";
+import SignUp from "../components/SignUp/SignUp";
 
 
 class ProfilePage extends React.Component {
@@ -12,6 +13,9 @@ class ProfilePage extends React.Component {
         super(props);
 
         this.state = {
+            popState: false,
+            email: "",
+            activeTab: "login",
             user: LoadUser(),
             userProfile: {
                 id: "",
@@ -24,13 +28,34 @@ class ProfilePage extends React.Component {
             },
             loaded: false
         };
+
+        this.handlePopState = this.handlePopState.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
+    }
+
+    handleScroll() {
+        let e = document.getElementById("profile-sidebar");
+        if(e) {
+            if(window.pageYOffset > 275) e.classList.add("stick-side");
+            else {
+                e.classList.remove("stick-side");
+            }
+        }
+    }
+
+    handlePopState(args) {
+        if(args)
+            this.setState({popState: !this.state.popState, email: args["email"], activeTab: args["activeTab"]})
+        else
+            this.setState({popState: !this.state.popState})
     }
 
     componentDidMount() {
+        window.addEventListener("scroll", this.handleScroll)
         console.log(window.location.pathname);
         getUser(window.location.pathname.slice(2)).then(r => {
                 console.log(r.response);
-                this.setState({userProfile: r.response})
+                this.setState({userProfile: r.response, loaded: true})
             }
         );
     }
@@ -41,7 +66,7 @@ class ProfilePage extends React.Component {
                 <div className={"profile-header"}>
                     <div className={"profile-header-hero"}>
                         <div className={"profile-header-cover"}>
-                            <Navigation parentState={this.state}/>
+                            <Navigation parentState={this.state} handlePopState={this.handlePopState}/>
                             <h1 id={"userName"}>{this.state.userProfile.name}</h1>
                         </div>
                     </div>
@@ -63,6 +88,15 @@ class ProfilePage extends React.Component {
                 </div>
 
                 <div className={"page-wrapper"}>
+
+                    { this.state.loaded && <div className={"overlapper"}>
+                        <div className={"profile-sidebar"} id={"profile-sidebar"}>
+                            <img src={this.state.userProfile.image_url} alt={this.state.userProfile.name}/>
+                            <p className={"profile-name"}>{this.state.userProfile.name}</p>
+                            <p className={"profile-bio"}>{this.state.userProfile.bio}</p>
+                            <a href={"/"}>Follow Me</a>
+                        </div>
+                    </div>}
                     <div className={"content-wrapper"}>
                         <div className={"profile-posts"}>
                             {
@@ -72,16 +106,12 @@ class ProfilePage extends React.Component {
                             }
                         </div>
                     </div>
-                    <div className={"overlapper"}>
-                        <div className={"profile-sidebar"}>
-                            <img src={this.state.userProfile.image_url} alt={this.state.userProfile.name}/>
-                            <p className={"profile-name"}>{this.state.userProfile.name}</p>
-                            <p className={"profile-bio"}>{this.state.userProfile.bio}</p>
-                            <a href={"/"}>Follow Me</a>
-                        </div>
-                    </div>
+
                 </div>
 
+                { this.state.popState && !this.state.user &&
+                <SignUp parentState={this.state} closePop={this.handlePopState} parentProps={this.props}/>
+                }
                 <Footer/>
             </>
         )

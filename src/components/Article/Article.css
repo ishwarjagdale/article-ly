@@ -261,14 +261,13 @@ h1:focus {
 .loading {
     background-color: #e2e2e2;
     display: block;
-    width: 720px;
 }
 /* The moving element */
 .loading::after {
     display: block;
     content: "";
     position: absolute;
-    width: 100%;
+    width: 10%;
     height: inherit;
     transform: translateX(-100%);
     background: -webkit-gradient(linear, left top,
@@ -286,28 +285,33 @@ h1:focus {
 /* Loading Animation */
 @keyframes loading {
     100% {
-        transform: translateX(100%);
+        transform: translateX(500%);
     }
 }
 .titleBlock {
     height: 60px;
     margin-bottom: 30px;
+    width: 720px;
 }
 .subtitleBlock {
     height: 30px;
+    width: 720px;
     margin-bottom: 24px;
 }
 
 .postInfoBlock {
     height: 60px;
+    width: 720px;
     margin-bottom: 40px;
 }
 .postBodyBlock {
     height: 600px;
     margin-bottom: 40px;
+    width: 720px;
 }
 .postFooterBlock {
     height: 80px;
+    width: 720px;
 }
 
 .shrink {
@@ -319,4 +323,7 @@ h1:focus {
 .separator {
     border-bottom: 2px solid #e4e4e4;
     margin: 40px 0;
+}
+.no-decor {
+    text-decoration: none;
 }
