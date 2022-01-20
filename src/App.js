@@ -2,7 +2,7 @@ import {BrowserRouter as Router, Navigate, Route, Routes, useLocation} from 'rea
 import Home from './views/Home';
 import Post from "./views/Post";
 import Dashboard from "./views/Dashboard";
-import {Logout} from "./api/AuthAPI";
+import {LoadUser, Logout} from "./api/AuthAPI";
 import ProfilePage from "./views/ProfilePage";
 import Settings from "./views/Dashboard/Settings";
 import NewStory from "./views/NewStory";
@@ -10,7 +10,7 @@ import NewStory from "./views/NewStory";
 const AuthRoutes = ({children}) => {
     let location = useLocation();
     return (
-      localStorage.hasOwnProperty("user") ?
+      LoadUser() ?
           children :
           <Navigate to={"/"} state={{from: location}} replace/>
   )

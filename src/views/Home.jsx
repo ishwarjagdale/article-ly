@@ -22,6 +22,7 @@ class Home extends React.Component {
         this.handlePopState = this.handlePopState.bind(this);
     }
     componentDidMount() {
+        console.log(this.state.user);
         let data = get_posts();
         data.then(res => {
             this.setState({

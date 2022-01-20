@@ -1,5 +1,6 @@
 import axios from "axios";
 import {Navigate} from "react-router-dom";
+
 const API = process.env.REACT_APP_API_URL + "/api"
 const AuthAPI = process.env.REACT_APP_API_URL + "/auth";
 const SIGN_UP_URL = AuthAPI + "/";
@@ -27,7 +28,8 @@ function RegisterUser(name, email, password) {
 function LoginUser(email, password, rememberMe) {
     return axios.post(LOGIN_URL, {"email": email, "password": password, "rememberMe": rememberMe}).then(res => {
         if (res.data["resp_code"] === 200) {
-            localStorage.setItem("user", JSON.stringify(res.data.user))
+            if(rememberMe === "on") localStorage.setItem("user", JSON.stringify(res.data.user));
+            else sessionStorage.setItem("user", JSON.stringify(res.data.user));
             console.log("userLoggedIn", res)
             return [true, res.data.user];
         } else {
@@ -39,14 +41,24 @@ function LoginUser(email, password, rememberMe) {
 }
 
 function LoadUser() {
-    let user = localStorage.getItem("user")
-    if(user) {
-        user = JSON.parse(user);
+
+    if(localStorage.hasOwnProperty("user")) {
+        let token = document.cookie.split(";").filter((cookie) => cookie.startsWith("remember_token"))[0];
+        if(token) {
+            let user = JSON.parse(localStorage.getItem("user"));
+            if(user.id.toString() === token.split("=")[1].split("|")[0]) {
+                return user;
+            }
+        } else {
+            localStorage.removeItem("user");
+            return false;
+        }
+    } else if(sessionStorage.hasOwnProperty("user")) {
+        return JSON.parse(sessionStorage.getItem("user"));
     } else {
-        user = false;
+        return false;
     }
-    console.log("User Loaded", user);
-    return user;
+
 }
 
 async function getUser(username) {
@@ -61,13 +73,14 @@ async function getUser(username) {
 function ReloadUser() {
     axios.get(AuthAPI + "/settings").then(r => {
         if(r.data["resp_code"] === 200) {
-            localStorage.setItem("user", JSON.stringify(r.data["settings"]));
+            localStorage.hasOwnProperty("user") ? localStorage.setItem("user", JSON.stringify(r.data["settings"])) :
+                sessionStorage.setItem("user", JSON.stringify(r.data["settings"]));
         }
     })
 }
 
 function Logout(e) {
-    localStorage.removeItem("user");
+    localStorage.removeItem("user"); sessionStorage.removeItem("user");
     axios.get(AuthAPI + "/logout", {withCredentials: true}).then(r => console.log("loggedOut", r));
     return (
         <Navigate to={"/"} />
