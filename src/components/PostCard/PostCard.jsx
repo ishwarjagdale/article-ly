@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 function PostCard({post, id}) {
     return (
-        <div className="post-card" id={id}>
+        <div className="post-card" id={id} key={id}>
             <div className="post-thumbnail">
                 <Link to={post.url} state={{postID: post.id, from: 'home'}}>
                     <img src={post.thumbnail.url} alt={"postThumbnail:" + id}/>

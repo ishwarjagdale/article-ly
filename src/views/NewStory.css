@@ -3,11 +3,14 @@
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    height: 75vh;
+    min-height: 75vh;
     padding: 40px 20px;
     flex-direction: column;
 }
 
+.ck-content h1 {
+    padding-bottom: 20px;
+}
 
 .preview-pop {
     width: 100vw;
