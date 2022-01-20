@@ -41,24 +41,14 @@ function LoginUser(email, password, rememberMe) {
 }
 
 function LoadUser() {
-
-    if(localStorage.hasOwnProperty("user")) {
-        let token = document.cookie.split(";").filter((cookie) => cookie.startsWith("remember_token"))[0];
-        if(token) {
-            let user = JSON.parse(localStorage.getItem("user"));
-            if(user.id.toString() === token.split("=")[1].split("|")[0]) {
-                return user;
-            }
-        } else {
-            localStorage.removeItem("user");
-            return false;
-        }
-    } else if(sessionStorage.hasOwnProperty("user")) {
-        return JSON.parse(sessionStorage.getItem("user"));
+    let user = localStorage.getItem("user")
+    if(user) {
+        user = JSON.parse(user);
     } else {
-        return false;
+        user = false;
     }
-
+    console.log("User Loaded", user);
+    return user;
 }
 
 async function getUser(username) {
