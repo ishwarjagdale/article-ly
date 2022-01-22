@@ -194,7 +194,7 @@ class Settings extends React.Component {
                                  id={"username"}
                                  key={"Username & URL"}
                                  value={this.state.settings.username} label={"Username: "}
-                                 description={[`URL: https://medium.com/${this.state.settings.username}`]}/>
+                                 description={[`Profile URL: ${document.location.origin}/@${this.state.settings.username}`]}/>
                         <Setting name={"Email"}
                                  id={"email"}
                                  key={"Email"}

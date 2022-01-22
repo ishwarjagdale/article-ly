@@ -5,6 +5,8 @@ const NEW_POST_URL = "/new-story";
 const GET_POSTS_URL = "/posts";
 const GET_POST_URL = "/post/";
 
+axios.defaults.withCredentials = true;
+
 async function new_post(title, subtitle, content, thumbnailURL, tags, user_id) {
     return await axios.post(API_URL + NEW_POST_URL,
         {

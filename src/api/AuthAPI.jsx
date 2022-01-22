@@ -28,8 +28,7 @@ function RegisterUser(name, email, password) {
 function LoginUser(email, password, rememberMe) {
     return axios.post(LOGIN_URL, {"email": email, "password": password, "rememberMe": rememberMe}).then(res => {
         if (res.data["resp_code"] === 200) {
-            if(rememberMe === "on") localStorage.setItem("user", JSON.stringify(res.data.user));
-            else sessionStorage.setItem("user", JSON.stringify(res.data.user));
+            sessionStorage.setItem("user", JSON.stringify(res.data.user));
             console.log("userLoggedIn", res)
             return [true, res.data.user];
         } else {
@@ -41,9 +40,15 @@ function LoginUser(email, password, rememberMe) {
 }
 
 function LoadUser() {
-    let user = localStorage.getItem("user")
+    let user = sessionStorage.getItem("user")
     if(user) {
         user = JSON.parse(user);
+        authUser(user.id).then(res => {
+            if(res.data.resp_code !== 200) {
+                sessionStorage.removeItem("user");
+                window.location.reload();
+            }
+        })
     } else {
         user = false;
     }
@@ -63,23 +68,28 @@ async function getUser(username) {
 function ReloadUser() {
     axios.get(AuthAPI + "/settings").then(r => {
         if(r.data["resp_code"] === 200) {
-            localStorage.hasOwnProperty("user") ? localStorage.setItem("user", JSON.stringify(r.data["settings"])) :
-                sessionStorage.setItem("user", JSON.stringify(r.data["settings"]));
+            sessionStorage.setItem("user", JSON.stringify(r.data["settings"]));
         }
     })
 }
 
 function Logout(e) {
-    localStorage.removeItem("user"); sessionStorage.removeItem("user");
-    axios.get(AuthAPI + "/logout", {withCredentials: true}).then(r => console.log("loggedOut", r));
+    sessionStorage.removeItem("user");
+    axios.get(AuthAPI + "/logout", {withCredentials: true}).then(r => {
+        console.log("loggedOut", r)
+    });
     return (
-        <Navigate to={"/"} />
-        )
+        <Navigate to={"/"}/>
+    )
 }
 
-function test() {
-    axios.get(AuthAPI + "/secure", {
-    }).then(r => console.log(r));
+function authUser(id) {
+    return axios.post(AuthAPI + "/secure", {
+        "userId": id
+    }).catch(() => {
+        sessionStorage.removeItem("user");
+        window.location.reload();
+    });
 }
 
-export {RegisterUser, LoginUser, LoadUser, Logout, getUser, test, ReloadUser};
+export {RegisterUser, LoginUser, LoadUser, Logout, getUser, authUser, ReloadUser};
