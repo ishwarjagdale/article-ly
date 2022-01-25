@@ -6,6 +6,8 @@ import "./ProfilePage.css";
 import Article from "../components/Article/Article";
 import Button from "../elements/Button/Button";
 import SignUp from "../components/SignUp/SignUp";
+import {checkFollow} from "../api/ProfilesAPI";
+import FollowButton from "../components/FollowButton/FollowButton";
 
 
 class ProfilePage extends React.Component {
@@ -24,6 +26,7 @@ class ProfilePage extends React.Component {
                 bio: "",
                 email: "",
                 image_url: "",
+                followers: "...",
                 posts: []
             },
             loaded: false
@@ -36,12 +39,13 @@ class ProfilePage extends React.Component {
     handleScroll() {
         let e = document.getElementById("profile-sidebar");
         if(e) {
-            if(window.pageYOffset > 275) e.classList.add("stick-side");
+            if(window.scrollY > 455) e.classList.add("stick-side");
             else {
                 e.classList.remove("stick-side");
             }
         }
     }
+
 
     handlePopState(args) {
         if(args)
@@ -66,7 +70,7 @@ class ProfilePage extends React.Component {
                 <div className={"profile-header"}>
                     <div className={"profile-header-hero"}>
                         <div className={"profile-header-cover"}>
-                            <Navigation parentState={this.state} handlePopState={this.handlePopState}/>
+                            <Navigation parentState={this.state} handlePopState={this.handlePopState} navListLogo />
                             <h1 id={"userName"}>{this.state.userProfile.name}</h1>
                         </div>
                     </div>
@@ -81,7 +85,7 @@ class ProfilePage extends React.Component {
                                 <a href={"/about"}>About</a>
                             </li>
                             <li className={"nav-item"}>
-                                <a href={"/"}>4K Followers</a>
+                                <span id={"followCount"}>{this.state.userProfile.followers} Followers</span>
                             </li>
                         </ul>
                     </div>
@@ -94,9 +98,10 @@ class ProfilePage extends React.Component {
                             <img src={this.state.userProfile.image_url} alt={this.state.userProfile.name}/>
                             <p className={"profile-name"}>{this.state.userProfile.name}</p>
                             <p className={"profile-bio"}>{this.state.userProfile.bio}</p>
-                            <a href={"/"}>Follow Me</a>
+                            <FollowButton user={this.state.user} profile={this.state.userProfile} handlePopState={this.handlePopState}/>
                         </div>
-                    </div>}
+                    </div>
+                    }
                     <div className={"content-wrapper"}>
                         <div className={"profile-posts"}>
                             {

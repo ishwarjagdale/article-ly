@@ -11,6 +11,12 @@
     left: 0;
     z-index: 10;
     flex: 1;
+    position: absolute;
+}
+
+.fix-nav {
+    position: fixed;
+    top: 0;
 }
 
 .nav-wrapper {
@@ -28,7 +34,9 @@
     display: inline-flex;
     align-items: baseline;
 }
-
+.nav-brand img {
+    width: 150px;
+}
 .nav-brand  span, i {
     font-size: 28px;
     font-family: "Source Sans Pro", sans-serif;
@@ -39,6 +47,10 @@
     margin-right: 8px;
     font-size: 24px;
     color: black;
+}
+
+.nav-logo {
+    width: 50px;
 }
 
 .period {

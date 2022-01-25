@@ -17,6 +17,7 @@ class NewStory extends React.Component {
             user: LoadUser(),
             previewState: false,
             content: "",
+            characterCount: 0,
             title: "",
             subtitle: "",
             thumbnailURL: "./img/thumbnail.png",
@@ -35,7 +36,14 @@ class NewStory extends React.Component {
     }
 
     handleChange(data) {
-        this.setState({content: data});
+        const ele = document.createElement('div');
+        ele.innerHTML = data;
+        if(ele.innerText.length <= 10000) {
+            this.setState({content: data});
+        } else {
+            window.editor.setData(this.state.content);
+            alert("Oh Sorry, seems likes you have a lot to write, but we can't take that much a time. Consider writing a Part II of your story.")
+        }
     }
 
     handlePublish() {
@@ -100,7 +108,7 @@ class NewStory extends React.Component {
         return (
             <>
                 {this.state.previewState && <StoryPreview/>}
-                <Navigation parentState={this.state} disableNewStory publishStory={this.togglePreview}/>
+                <Navigation parentState={this.state} disableNewStory publishStory={this.togglePreview} widebrand={"dark"}/>
                 <div className={"story-content"}>
                     <div id={"editor"}/>
                 </div>

@@ -11,6 +11,8 @@ class Navigation extends React.Component {
             hoverActive: false,
             disableNewStory: this.props.hasOwnProperty('disableNewStory'),
             publishStory: this.props.hasOwnProperty('publishStory'),
+            email: "",
+            activeTab: "login",
         }
 
         this.handleSignIn = this.handleSignIn.bind(this);
@@ -35,9 +37,9 @@ class Navigation extends React.Component {
                 <>
                     <div className="drop-down-container">
                         <ul>
-                            <li><Link to={`/@${this.props.parentState.user.username}`}><i className="fas fa-user"/><span>Profile</span></Link></li>
-                            <li><Link to={"/settings"}><i className="fas fa-gear"/><span>Settings</span></Link></li>
-                            <li><Link to={"/logout"}><i className="fas fa-sign-out-alt"/><span>Logout</span></Link></li>
+                            <li><a href={`/@${this.props.parentState.user.username}`}><i className="fas fa-user"/><span>Profile</span></a></li>
+                            <li><a href={"/settings"}><i className="fas fa-gear"/><span>Settings</span></a></li>
+                            <li><a href={"/logout"}><i className="fas fa-sign-out-alt"/><span>Logout</span></a></li>
                         </ul>
                     </div>
                 </>
@@ -46,16 +48,23 @@ class Navigation extends React.Component {
 
         return(
             <>
-                <div className="navigation">
+                <div className={this.props.fixed ? "navigation fix-nav" : "navigation"}>
                     <div className="nav-wrapper">
-                        <a href="/" className="nav-brand">
-                            <i className="fab fa-typo3"/>
-                            <span>journal</span>
-                            <span className="period">.</span>
-                        </a>
+                        { this.props.widebrand &&
+                            <a href="/" className="nav-brand">
+                                <img src={this.props.widebrand === "dark" ? "/journal-1b.png" : "/journal-1.png"}/>
+                            </a>
+                        }
                         <ul className="nav-list">
 
+                            { this.props.navListLogo &&
+                                <li className="nav-item">
+                                    <a href="/"><img className={"nav-logo"} src={"/journal-2.png"}/></a>
+                                </li>
+                            }
+
                             {this.props.parentState.user === false ? <>
+
                                 <li className="nav-item">
                                     <Button buttonStyle="btn-o btn-o-rnd" onClick={this.handleSignUp}>Get
                                         Started</Button>

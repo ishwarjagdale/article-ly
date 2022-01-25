@@ -40,7 +40,9 @@ class HeroSection extends React.Component {
                         <Navigation handlePopState={this.props.handleHeroSubmit} parentState={this.props.parentState}/>
                         <div className="wrapper">
                             <div className="header-content">
-                                    <a href="/" className="title"><i className="fab fa-typo3"/>journal.</a>
+                                    <a href="/" className="title">
+                                        <img src={"/journal-1.png"} />
+                                    </a>
                                     <h2 className="subtitle"> is a place to write, read, and connect</h2>
                                     <p>It's easy and free to post your thinking on any topic and connect with millions of readers.</p>
 

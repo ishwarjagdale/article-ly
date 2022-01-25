@@ -168,12 +168,12 @@ class Settings extends React.Component {
 
         return (
             <>
-                <Navigation parentState={this.state} />
-                <div className="container">
-                    <div className="settingAccord">
+                <Navigation parentState={this.state} fixed widebrand={"dark"}/>
+                <div className="page-wrapper mt-60">
+                    <div className="overlapper settingAccord">
                         <h2>Settings</h2>
                     </div>
-                    {   !this.state.loading && <div className="setting-container">
+                    {   !this.state.loading && <div className="content-wrapper setting-container">
                         <h2>About</h2>
                         <Setting name={"Name"}
                                  id={"name"}

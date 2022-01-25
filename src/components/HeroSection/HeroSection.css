@@ -107,6 +107,11 @@
     text-decoration: none;
 }
 
+.title img {
+    width: 480px;
+    margin-left: -20px;
+}
+
 .title i {
     font-size: 48px;
     margin-right: 20px;

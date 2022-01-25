@@ -1,26 +1,24 @@
 .container {
     display: flex;
     width: 1140px;
-    margin-top: 60px;
+    margin-top: 140px;
     flex: 2;
 }
 .settingAccord {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    height: inherit;
-    margin-right: 10px;
-    width: 300px;
-    padding: 0 20px;
+    position: fixed;
+    top: 60px;
 }
+.mt-100 {
+    margin-top: 100px;
+}
+.mt-60 {
+    margin-top: 60px;
+ }
 .settingAccord h2 {
     font-family: "Roboto", sans-serif;
 }
 .setting-container {
-    flex: 4;
-    padding: 0 20px;
-    margin-bottom: 80px;
+    width: 720px;
 }
 .setting-container h2 {
     border-bottom: 2px solid #e4e4e4;
