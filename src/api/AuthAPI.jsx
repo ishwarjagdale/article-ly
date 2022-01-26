@@ -20,6 +20,8 @@ function RegisterUser(name, email, password) {
         if(res.data["resp_code"] === 200) {
             return [true, res.data.user]
         } else {
+            window.alert(res.data.response)
+            console.log("failed", res["resp_code"]);
             return [false, res.data.response]
         }
     })
