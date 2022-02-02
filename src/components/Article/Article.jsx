@@ -57,7 +57,7 @@ class Article extends React.Component {
                                     <a href={this.state.post.author.url}
                                        className="author-name">{this.state.post.author.name}</a>
                                     <span
-                                        className="article-date">{new Date(Date.parse(this.state.post.meta.date_published)).toDateString()} . 4 min read</span>
+                                        className="article-date">{new Date(Date.parse(this.state.post.meta.date_published)).toDateString()} . {Math.ceil(this.state.post.meta.read_time / 200)} min read</span>
                                 </div>
                             </div>
                             <ShareButtons parentState={this.state}/>

@@ -4,10 +4,11 @@ const API_URL = process.env.REACT_APP_API_URL + "/api"
 const NEW_POST_URL = "/new-story";
 const GET_POSTS_URL = "/posts";
 const GET_POST_URL = "/post/";
+const SEARCH_URL = "/search";
 
 axios.defaults.withCredentials = true;
 
-async function new_post(title, subtitle, content, thumbnailURL, tags, user_id) {
+async function new_post(title, subtitle, content, thumbnailURL, tags, wordCount, user_id) {
     return await axios.post(API_URL + NEW_POST_URL,
         {
             "title": title,
@@ -15,7 +16,8 @@ async function new_post(title, subtitle, content, thumbnailURL, tags, user_id) {
             "content": content,
             "thumbnailURL": thumbnailURL,
             "author": user_id,
-            "tags": tags
+            "tags": tags,
+            "wordCount": wordCount,
         }).then(res => {
         if (res.data["resp_code"] === 200) {
             localStorage.removeItem("new-story");
@@ -59,4 +61,13 @@ async function likePost(postID) {
     });
 }
 
-export { new_post, get_posts, get_post, likePost };
+async function search(string) {
+    return await axios.get(API_URL + SEARCH_URL + "?query=" + string).then((res) => {
+        if(res.data.resp_code === 200)
+            return res.data.response;
+        else
+            return [];
+    })
+}
+
+export { new_post, get_posts, get_post, likePost, search };

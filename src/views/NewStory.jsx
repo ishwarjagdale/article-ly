@@ -18,6 +18,7 @@ class NewStory extends React.Component {
             previewState: false,
             content: "",
             characterCount: 0,
+            wordCount: 0,
             title: "",
             subtitle: "",
             thumbnailURL: "./img/thumbnail.png",
@@ -39,7 +40,7 @@ class NewStory extends React.Component {
         const ele = document.createElement('div');
         ele.innerHTML = data;
         if(ele.innerText.length <= 10000) {
-            this.setState({content: data});
+            this.setState({content: data, wordCount: ele.innerText.split(" ").length});
         } else {
             window.editor.setData(this.state.content);
             alert("Oh Sorry, seems likes you have a lot to write, but we can't take that much a time. Consider writing a Part II of your story.")
@@ -47,8 +48,8 @@ class NewStory extends React.Component {
     }
 
     handlePublish() {
-        let {content, title, subtitle, thumbnailURL, tags} = this.state;
-        return new_post(title, subtitle, content, thumbnailURL, tags, this.state.user.id)
+        let {content, title, subtitle, thumbnailURL, tags, wordCount} = this.state;
+        return new_post(title, subtitle, content, thumbnailURL, tags, wordCount, this.state.user.id)
     }
 
     handlePreviewChange(e) {

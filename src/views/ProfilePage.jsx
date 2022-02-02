@@ -70,7 +70,7 @@ class ProfilePage extends React.Component {
                 <div className={"profile-header"}>
                     <div className={"profile-header-hero"}>
                         <div className={"profile-header-cover"}>
-                            <Navigation parentState={this.state} handlePopState={this.handlePopState} navListLogo />
+                            <Navigation parentState={this.state} handlePopState={this.handlePopState} navListLogo search/>
                             <h1 id={"userName"}>{this.state.userProfile.name}</h1>
                         </div>
                     </div>

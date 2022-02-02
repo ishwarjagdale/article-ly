@@ -37,7 +37,7 @@ class HeroSection extends React.Component {
             <>
                 <div className="header">
                     <div className="back-effect">
-                        <Navigation handlePopState={this.props.handleHeroSubmit} parentState={this.props.parentState}/>
+                        <Navigation handlePopState={this.props.handleHeroSubmit} parentState={this.props.parentState} search/>
                         <div className="wrapper">
                             <div className="header-content">
                                     <a href="/" className="title">

@@ -32,7 +32,7 @@ class Post extends React.Component {
     render() {
         return (
             <>
-                <Navigation handlePopState={this.handlePopState} parentState={this.state}/>
+                <Navigation widebrand={"dark"} handlePopState={this.handlePopState} parentState={this.state} search/>
                 { this.state.popState && !this.state.user && <SignUp parentState={this.state} closePop={this.handlePopState} parentProps={this.props}/> }
                 <div className="content-wrapper mt-100">
                     { !this.state.loading && <Article postID={window.location.pathname.split("-").pop()}/>}

@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../../elements/Button/Button';
 import './Navigation.css';
-import {Link} from "react-router-dom";
+import Search from "../Search/Search";
 
 class Navigation extends React.Component {
     constructor(props) {
@@ -13,13 +13,19 @@ class Navigation extends React.Component {
             publishStory: this.props.hasOwnProperty('publishStory'),
             email: "",
             activeTab: "login",
+            searchVisible: false,
         }
 
         this.handleSignIn = this.handleSignIn.bind(this);
         this.handleSignUp = this.handleSignUp.bind(this);
         this.handleHover = this.handleHover.bind(this);
+        this.handleSearchWindow = this.handleSearchWindow.bind(this);
     }
 
+    handleSearchWindow() {
+        document.body.classList.toggle("stop-scrolling")
+        this.setState({searchVisible: !this.state.searchVisible});
+    }
     handleSignIn(e) {
         e.preventDefault();
         this.props.handlePopState({email: this.state.email, activeTab: "login"});
@@ -84,10 +90,6 @@ class Navigation extends React.Component {
                                 </div>
 
                                 </li>
-
-                                <li className="nav-item">
-                                    <i className="fas fa-search navi-icon"/>
-                                </li>
                                 <li className="nav-item">
                                     <i className="fas fa-bookmark navi-icon"/>
                                 </li>
@@ -105,9 +107,18 @@ class Navigation extends React.Component {
                                 }
 
                             </>}
+                            {
+                                this.props.search &&
+                                <li className="nav-item">
+                                    <i onClick={this.handleSearchWindow} className="fas fa-search navi-icon"/>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
+                {
+                    this.state.searchVisible && <Search toggleWindow={this.handleSearchWindow}/>
+                }
             </>
         )
     }
