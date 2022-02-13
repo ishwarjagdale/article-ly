@@ -1,7 +1,7 @@
 import axios from "axios";
-
 const API_URL = process.env.REACT_APP_API_URL;
 const userSettings = "/auth/settings";
+const staticURL = "/static/"
 
 axios.defaults.withCredentials = true;
 
@@ -19,4 +19,17 @@ async function getUserSettings() {
     );
 }
 
-export {getUserSettings};
+async function uploadImage(image, fileCat) {
+    let data = new FormData();
+    data.append("upload", image);
+    data.append("fileCat", fileCat);
+    return await axios.post(
+        API_URL + staticURL, data
+    ).then((res) => {
+        if(res.status === 200) {
+            return res.data;
+        }
+    })
+}
+
+export {getUserSettings, uploadImage};

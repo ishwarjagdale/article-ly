@@ -75,8 +75,13 @@ i.close-button {
     margin: 10px 0;
     width: 440px;
     height: 200px;
+}
+.story-thumbnail img {
     background: lightgrey;
-
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
 }
 .story-details {
     padding: 40px;

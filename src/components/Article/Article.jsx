@@ -31,7 +31,7 @@ class Article extends React.Component {
     componentDidMount() {
         let article = get_post(this.props.postID);
         article.then(res => {
-            if(this.props.size) document.title = res.title;
+            if(this.props.size !== 0) document.title = res.title;
             this.setState({
                 post: res,
                 loading: false
@@ -75,7 +75,7 @@ class Article extends React.Component {
                                 {
                                     this.state.post.meta.tag.split(",").map(tag => {
                                         return (
-                                            <li><a href={"/tag/" + tag.trim()}>{ tag.trim() }</a></li>
+                                            <li key={tag.trim()}><a href={"/tag/" + tag.trim()}>{ tag.trim() }</a></li>
                                         )
                                     })
                                 }

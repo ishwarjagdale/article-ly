@@ -82,6 +82,11 @@ class ProfilePage extends React.Component {
                         </ul> */}
                         <ul className="nav-list">
                             <li className={"nav-item"}>
+                                <span className={"fas fa-sliders"} title={"Change Background Image"}/>
+                            </li>
+                        </ul>
+                        <ul className="nav-list">
+                            <li className={"nav-item"}>
                                 <a href={"/about"}>About</a>
                             </li>
                             <li className={"nav-item"}>

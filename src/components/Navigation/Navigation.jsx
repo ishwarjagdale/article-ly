@@ -102,7 +102,7 @@ class Navigation extends React.Component {
                                 }
                                 {
                                     this.state.publishStory && <li className="nav-item">
-                                        <Button buttonStyle={"btn-o btn-o-rnd green-accent"} onClick={this.props.publishStory}>Publish</Button>
+                                        <Button buttonStyle={"btn-o btn-o-rnd green-accent"} id={"nav-publish"} onClick={this.props.publishStory}>Publish</Button>
                                     </li>
                                 }
 

@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-undef
-BalloonEditor.create(
+BalloonBlockEditor.create(
     document.querySelector('#editor'), {
         removePlugins: ["Title"],
         title : {
@@ -11,9 +11,16 @@ BalloonEditor.create(
                 return localStorage.setItem("new-story", editor.getData());
             }
         },
+        simpleUpload: {
+            // The URL that the images are uploaded to.
+            uploadUrl: "http://localhost:5000/static/",
+            // Enable the XMLHttpRequest.withCredentials property.
+            withCredentials: true,
+        },
         placeholder: "Write your story"
     }
 ).then(editor => {
+    editor.focus();
     console.log(editor);
     window.editor = editor;
 }).catch(error => {

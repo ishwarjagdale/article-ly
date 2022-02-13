@@ -7,6 +7,8 @@
 .settingAccord {
     position: fixed;
     top: 60px;
+    display: flex;
+    flex-direction: column;
 }
 .mt-100 {
     margin-top: 100px;
@@ -14,8 +16,14 @@
 .mt-60 {
     margin-top: 60px;
  }
-.settingAccord h2 {
+.settingAccord h1 {
     font-family: "Roboto", sans-serif;
+}
+.settingAccord h3 {
+    margin-bottom: 0;
+}
+.settingAccord a {
+    text-decoration: none;
 }
 .setting-container {
     width: 720px;
@@ -30,6 +38,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    transition: all 0.3s ease-in-out;
 }
 .form-element-header {
     display: flex;
@@ -52,7 +61,6 @@
     width: 400px;
     font-size: 18px;
     color: #535353;
-    cursor: pointer;
 }
 .form-element input:focus {
     outline: none;
@@ -79,6 +87,7 @@
 .inline-flex {
     display: flex;
     align-items: center;
+    transition: all 0.3s ease-in-out;
 }
 .form-element-content label {
     margin-right: 10px;

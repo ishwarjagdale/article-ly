@@ -30,7 +30,7 @@ function RegisterUser(name, email, password) {
 function LoginUser(email, password, rememberMe) {
     return axios.post(LOGIN_URL, {"email": email, "password": password, "rememberMe": rememberMe}).then(res => {
         if (res.data["resp_code"] === 200) {
-            sessionStorage.setItem("user", JSON.stringify(res.data.user));
+            localStorage.setItem("user", JSON.stringify(res.data.user));
             console.log("userLoggedIn", res)
             return [true, res.data.user];
         } else {
@@ -42,12 +42,12 @@ function LoginUser(email, password, rememberMe) {
 }
 
 function LoadUser() {
-    let user = sessionStorage.getItem("user")
+    let user = localStorage.getItem("user")
     if(user) {
         user = JSON.parse(user);
         authUser(user.id).then(res => {
             if(res.data.resp_code !== 200) {
-                sessionStorage.removeItem("user");
+                localStorage.removeItem("user");
                 window.location.reload();
             }
         })
@@ -70,13 +70,13 @@ async function getUser(username) {
 function ReloadUser() {
     axios.get(AuthAPI + "/settings").then(r => {
         if(r.data["resp_code"] === 200) {
-            sessionStorage.setItem("user", JSON.stringify(r.data["settings"]));
+            localStorage.setItem("user", JSON.stringify(r.data["settings"]));
         }
     })
 }
 
 function Logout(e) {
-    sessionStorage.removeItem("user");
+    localStorage.removeItem("user");
     axios.get(AuthAPI + "/logout", {withCredentials: true}).then(r => {
         console.log("loggedOut", r)
     });
@@ -89,7 +89,7 @@ function authUser(id) {
     return axios.post(AuthAPI + "/secure", {
         "userId": id
     }).catch(() => {
-        sessionStorage.removeItem("user");
+        localStorage.removeItem("user");
         window.location.reload();
     });
 }

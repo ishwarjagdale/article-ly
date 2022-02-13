@@ -8,6 +8,7 @@ import "./NewStory.css";
 import Button from "../elements/Button/Button";
 import {new_post} from "../api/ArticlesAPI";
 import Footer from "../components/Footer";
+import FileUpload from "../components/FIleUpload/FileUpload";
 
 class NewStory extends React.Component {
     constructor(props) {
@@ -21,18 +22,23 @@ class NewStory extends React.Component {
             wordCount: 0,
             title: "",
             subtitle: "",
-            thumbnailURL: "./img/thumbnail.png",
+            thumbnail_image: "https://storage.googleapis.com/dotted-tube-339407.appspot.com/assets/img/thumbnail.png",
             tags: "",
+            enableSubmit: false,
         };
 
         this.togglePreview = this.togglePreview.bind(this);
         this.handleChange = this.handleChange.bind(this);
         window.handleEditorChange = this.handleChange;
+        window.busy = false;
         this.handlePublish = this.handlePublish.bind(this);
         this.handlePreviewChange = this.handlePreviewChange.bind(this);
     }
 
     togglePreview() {
+        let e = document.getElementById("nav-publish")
+        let states = ["Publish", "Edit"], index = states.indexOf(e.innerText);
+        if(index in [0, 1]) e.innerText = states[Number(!index)]
         this.setState({previewState: !this.state.previewState});
     }
 
@@ -48,8 +54,17 @@ class NewStory extends React.Component {
     }
 
     handlePublish() {
-        let {content, title, subtitle, thumbnailURL, tags, wordCount} = this.state;
-        return new_post(title, subtitle, content, thumbnailURL, tags, wordCount, this.state.user.id)
+        if(!window.busy) {
+            if(this.state.title !== "" && this.state.content !== "") {
+                document.getElementById("publishPost").setAttribute("disabled", "true")
+                let thumbnail_image = document.getElementById("thumbnail_image").getAttribute("src")
+                let {content, title, subtitle, tags, wordCount} = this.state;
+                return new_post(title, subtitle, content, thumbnail_image, tags, wordCount, this.state.user.id)
+            }
+            return alert("Your Story must have a title and proper content!")
+        } else {
+            return alert("Please wait, while we save your changes")
+        }
     }
 
     handlePreviewChange(e) {
@@ -81,7 +96,7 @@ class NewStory extends React.Component {
                             <div className={"story-preview"}>
                                 <div>
                                     <span>Story Preview</span>
-                                    <div className={"story-thumbnail"}/>
+                                    <FileUpload for={"thumbnail_image"} className={"story-thumbnail"}><img id={"thumbnail_image"} src={this.state.thumbnail_image} alt={"thumbnail"}/></FileUpload>
                                 </div>
                                 <input className={"preview-inp"} type={"text"} name={"title"}
                                        placeholder={"Write a preview title"} onChange={this.handlePreviewChange}/>
@@ -95,7 +110,7 @@ class NewStory extends React.Component {
                                        onChange={this.handlePreviewChange}/>
                                 <p>Learn more about what happens to your post when you publish.</p>
                                 <div className={"d-flex-inline"}>
-                                    <Button buttonStyle={"btn-o btn-o-rnd green-accent"} id={"publishPost"}
+                                    <Button buttonStyle={"btn-o btn-o-rnd green-accent"} id={"publishPost"} type={"submit"}
                                             onClick={this.handlePublish}>Publish Now</Button>
 
 

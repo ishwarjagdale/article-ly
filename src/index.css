@@ -56,11 +56,11 @@ a {
 }
 
 *::-webkit-scrollbar-track {
-  background-color: #F5F5F5;
+  background-color: black;
 }
 *::-webkit-scrollbar-thumb {
   /*border-right: 1px solid white;*/
-  background-color: #1a1a1a;
+  background-color: ghostwhite;
 }
 *::-webkit-scrollbar {
   width: 5px;
@@ -70,8 +70,4 @@ a {
 
 .stop-scrolling {
   overflow: hidden;
-}
-
-#root * {
-  transition: all 0.3s ease-in-out;
 }
