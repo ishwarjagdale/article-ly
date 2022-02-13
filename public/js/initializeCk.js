@@ -13,7 +13,7 @@ BalloonBlockEditor.create(
         },
         simpleUpload: {
             // The URL that the images are uploaded to.
-            uploadUrl: "http://localhost:5000/static/",
+            uploadUrl: "https://journal-flask-server.herokuapp.com/static/",
             // Enable the XMLHttpRequest.withCredentials property.
             withCredentials: true,
         },
