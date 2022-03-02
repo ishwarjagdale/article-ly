@@ -7,7 +7,7 @@ class Register extends React.Component {
         super(props);
 
         this.state = {
-            email: sessionStorage.getItem("newUser") || "",
+            email: sessionStorage.getItem("newUser"),
             name: "",
             password: "",
             rememberMe: false,
@@ -110,7 +110,7 @@ class Register extends React.Component {
                                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 mr-2 absolute ml-3" fill="none" viewBox="0 0 24 24" stroke="#535353">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                                         </svg>
-                                                        <input onChange={this.handleChange} type={"email"} className={"text-sm flex-1 outline-0 py-2.5 rounded-full pl-12"} name={"email"} placeholder={"Your Email"} defaultValue={this.state.email} required/>
+                                                        <input onChange={this.handleChange} type={"email"} className={"text-sm flex-1 outline-0 py-2.5 rounded-full pl-12"} name={"email"} placeholder={"Your Email"} defaultValue={sessionStorage.getItem("newUser")} required/>
                                                     </div>
                                                     <div className={"flex items-center border-2 rounded-full"}>
                                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 mr-2 absolute ml-3" fill="none" viewBox="0 0 24 24" stroke="#535353">

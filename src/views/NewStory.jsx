@@ -181,7 +181,7 @@ class NewStory extends React.Component {
             <>
                 <Navigation appState={this.props.appState} publishStory showPop={this.showPop} hidePop={this.hidePop} popState={this.state.publishPop}/>
                 <div id={"content"}
-                     className={"container relative md:my-16 p-4 md:p-0 w-full max-w-[1440px] mx-auto flex justify-start flex-col items-center"}>
+                     className={"container mt-16 md:mt-24 relative md:my-16 p-4 md:p-0 w-full max-w-[1440px] mx-auto flex justify-start flex-col items-center"}>
                     <StoryPreview/>
                     <div id={"ck-editor"} autoFocus={true} className={"ck-content mx-4 w-10/12 md:w-10/12 max-w-[720px]"}>
                     </div>

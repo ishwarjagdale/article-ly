@@ -47,7 +47,7 @@ class Navigation extends React.Component {
             <>
                 { this.state.searchVisible && <Search hideSearch={this.hideSearch} /> }
                 <div id={"navigation"}
-                     className={`z-50 flex w-full h-20 p-3 items-center justify-center top-0 sticky text-black bg-white border-b-2 ${this.props.transparent && "transparent-nav"}`}>
+                     className={`z-50 flex w-full h-20 p-3 items-center justify-center top-0 sticky text-black bg-white border-b-2 ${this.props.transparent && !this.props.appState.user && "transparent-nav"}`}>
                     <div className={"w-full md:w-10/12 m-auto flex items-center"}>
                         <a href={"/"}>
                             <img id={"nav-brand"} src={"/img/journal-1b.png"} className={
@@ -162,7 +162,7 @@ class Navigation extends React.Component {
                                     <div id={"nav-sign-up"} className={"sm:hidden lg:block md:block"}>
                                         <button
                                             onClick={() => this.props.registerPop(1)}
-                                            className={"py-1.5 px-3 font-medium transition-all duration-300 ease text-sm hover:bg-black hover:text-white hover:border-black border-2 rounded-3xl"}>
+                                            className={"py-1.5 px-3 font-medium transition-all duration-300 ease text-sm border-black hover:bg-black hover:text-white hover:border-black border-2 rounded-3xl"}>
                                             Sign in
                                         </button>
                                     </div>
