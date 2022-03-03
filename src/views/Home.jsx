@@ -30,7 +30,7 @@ class Home extends React.Component {
     render() {
         return (
             <>
-                <Navigation appState={this.props.appState} transparent registerPop={this.props.registerPop} className={"text-white"}/>
+                <Navigation transparent appState={this.props.appState} registerPop={this.props.registerPop} className={"text-white"}/>
                 <HeroSection appState={this.props.appState} registerPop={this.props.registerPop}/>
                 <div id={"content"} className={"mt-24 container md:my-8 p-4 md:p-0 w-full max-w-[1440px] h-full mx-auto"}>
                     {/* <StoryCard featured/><hr className={"my-4"}/> */}

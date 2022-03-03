@@ -47,7 +47,7 @@ class Navigation extends React.Component {
             <>
                 { this.state.searchVisible && <Search hideSearch={this.hideSearch} /> }
                 <div id={"navigation"}
-                     className={`z-50 flex w-full h-20 p-3 items-center justify-center top-0 sticky text-black bg-white border-b-2 ${this.props.transparent && !this.props.appState.user && "transparent-nav"}`}>
+                     className={`${this.props.transparent && "transparent-nav"}`}>
                     <div className={"w-full md:w-10/12 m-auto flex items-center"}>
                         <a href={"/"}>
                             <img id={"nav-brand"} src={"/img/journal-1b.png"} className={
