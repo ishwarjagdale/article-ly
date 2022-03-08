@@ -130,6 +130,9 @@ body, #root {
 .transparent-nav * {
     border-color: white;
 }
+.transparent-nav *:hover {
+    border-color: black;
+}
 .transparent-nav #nav-brand {
     display: none;
 }
@@ -137,6 +140,58 @@ body, #root {
 #user-menu img {
     border-color: black;
 }
+
+.side-nav {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    outline: none;
+    position: fixed;
+    top: 0;
+    min-width: 350px;
+    max-width: 450px;
+    width: 30vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.8);
+    backdrop-filter: blur(2px);
+    right: 0;
+    transition: all 0.5s ease;
+    color: white!important;
+}
+
+@media only screen and (max-width: 768px) {
+    .side-nav {
+        min-width: 100vw;
+    }
+}
+
+.side-nav button {
+    width: 50%;
+    margin: 0 auto;
+    border-color: white!important;
+}
+
+.lo-b {
+    border-color: red;
+}
+
+.side-nav button:hover {
+    background-color: white!important;
+    color: black!important;
+}
+
+.side-nav li {
+    width: 100%;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+}
+
+.side-toggle {
+    justify-content: end!important;
+    margin-bottom: 42px!important;
+}
+
 
 @media only screen and (min-width: 1280px) {
     .side-profile {

@@ -11,11 +11,14 @@ class StoryCard extends React.Component {
         return (
             <div className={this.props.className}>
                 <div className={`flex flex-wrap md:flex-nowrap md:px-4 md:py-2 rounded-2xl flex-row-reverse justify-between max-w-3xl pb-4 border-b mb-4 md:mb-0 md:border-0 bg-white`}>
-                    <a href={this.props.post.url}>
-                        <img className={`md:h-[150px] md:w-[250px] object-cover w-full w-auto mb-2 md:m-4 rounded-md`}
-                             src={this.props.post.thumbnail.url}
-                             alt={"featured-story-thumbnail"}/>
-                    </a>
+                    <div className={"relative"}>
+
+                        <a href={this.props.post.url} className={"relative"}>
+                            <img className={`md:h-[150px] md:w-[250px] object-cover w-full w-auto mb-2 md:m-4 rounded-md`}
+                                 src={this.props.post.thumbnail.url}
+                                 alt={"featured-story-thumbnail"}/>
+                        </a>
+                    </div>
                     <div className={"md:p-4 flex-1 flex-col w-full md:w-6/12 lg:max-w-[600px] px-2"}>
                         <div className={"flex my-2"}>
                             <a href={this.props.post.author.url} className={"flex items-center"}>
@@ -52,6 +55,23 @@ class StoryCard extends React.Component {
                             <span className={"separator-dot"}/>
                             <div className={"story-meta"}>
                                 <span>{this.props.post.meta.tag.split(" ")[0]}</span>
+                            </div>
+                            <span className={"separator-dot"}/>
+                            <div className={"story-meta"}>
+                                <svg onClick={() => {
+                                    try {
+                                        let stories = localStorage.getItem("saved-stories");
+                                        if(!stories) {stories = new Set([this.props.post.id])} else {stories = new Set([this.props.post.id.toString(), ...stories.split(" ")])}
+                                        console.log(stories);
+                                        localStorage.setItem('saved-stories', [...stories].join(" "));
+                                        alert(`"${this.props.post.title}" saved!`);
+                                    } catch (e) {
+                                        console.log(e);
+                                        alert("Something went wrong, try again later!")
+                                    }
+                                }} xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 hover:fill-gray-600 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="grey">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                                </svg>
                             </div>
                         </div>
                         { this.props.featured && <div className={"view-btn"}>

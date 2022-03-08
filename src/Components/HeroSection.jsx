@@ -32,7 +32,9 @@ class HeroSection extends React.Component {
                     <div className={"w-full h-full backdrop-blur-md bg-black bg-opacity-60 flex justify-center items-center"}>
                         <div
                             className={"flex-col md:p-20 lg:p-42 z-20 lg:max-w-[1680px] w-full"}>
-                            <img src={"/img/journal-1.png"} className={"w-96 mb-2 mx-auto md:mx-0"} alt={"journal-logo"}/>
+                            <a href={"/"}>
+                                <img src={"/img/journal-1.png"} className={"w-96 mb-2 mx-auto md:mx-0"} alt={"journal-logo"}/>
+                            </a>
                             <h3 className={"font-bold text-2xl ml-8 text-white hidden md:block"}>is a place to write, read,
                                 and connect</h3>
                             <p className={"text-white text-md ml-8 pt-3 tracking-wide leading-6 hidden md:block"}>It's

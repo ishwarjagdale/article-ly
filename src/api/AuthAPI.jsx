@@ -76,11 +76,13 @@ function ReloadUser() {
 }
 
 function Logout(e) {
-    localStorage.removeItem("user");
-    axios.get(AuthAPI + "/logout", {withCredentials: true}).then(r => {
-        console.log("loggedOut", r)
+    axios.get(AuthAPI + "/logout", {withCredentials: true}).then((resp) => {
+        if(resp.data.resp_code === 200) {
+            localStorage.removeItem("user");
+            console.log("loggedOut", resp.data)
+            window.location.reload();
+        }
     });
-    window.location.reload();
 }
 
 function authUser(id) {

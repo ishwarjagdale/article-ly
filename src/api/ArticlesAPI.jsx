@@ -1,10 +1,11 @@
 import axios from "axios";
 
-const API_URL = process.env.REACT_APP_API_URL + "/api"
+const API_URL = process.env.REACT_APP_API_URL + "/api";
 const NEW_POST_URL = "/new-story";
 const GET_POSTS_URL = "/posts";
 const GET_POST_URL = "/post/";
 const SEARCH_URL = "/search";
+const SAVED_URL = "/saved";
 
 axios.defaults.withCredentials = true;
 
@@ -53,14 +54,6 @@ async function get_post(postID) {
     });
 }
 
-async function likePost(postID) {
-    return await axios.get(
-        API_URL + GET_POST_URL + postID + "/like"
-    ).then(r => {
-        return r.data["resp_code"] === 200 ? r.data.likes : false;
-    });
-}
-
 async function search(string) {
     return await axios.get(API_URL + SEARCH_URL + "?query=" + string).then((res) => {
         if(res.data.resp_code === 200)
@@ -70,4 +63,20 @@ async function search(string) {
     })
 }
 
-export { new_post, get_posts, get_post, likePost, search };
+async function likePost(postID) {
+    return await axios.get(
+        API_URL + GET_POST_URL + postID + "/like"
+    ).then(r => {
+        return r.data["resp_code"] === 200 ? r.data.likes : false;
+    });
+}
+
+async function getSaved() {
+    return await axios.get(
+        API_URL + SAVED_URL + "?stories=" + (localStorage.hasOwnProperty("saved-stories") ? localStorage.getItem("saved-stories").split(" ").join("%20") : "")
+    ).then((res) => {
+        return res.data.resp_code === 200 ? res.data.response : false;
+    })
+}
+
+export { new_post, get_posts, get_post, likePost, search, getSaved };

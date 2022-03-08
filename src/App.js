@@ -45,6 +45,10 @@ class App extends React.Component {
         this.setState({registration: false});
     }
 
+    componentDidMount() {
+        console.log(this.state)
+    }
+
     render() {
         return (
             <>
@@ -56,6 +60,7 @@ class App extends React.Component {
                         <Route path={"/logout"} element={<AuthRoutes><Logout appState={this.state}/></AuthRoutes>} />
                         <Route path={"/new-story"} element={<AuthRoutes><NewStory appState={this.state}/></AuthRoutes>} />
                         <Route path={"/settings"} element={<AuthRoutes><Settings appState={this.state}/></AuthRoutes>} />
+                        <Route path={"/saved"} element={<Home registerPop={this.showPop} appState={this.state} saved />} />
                     </Routes>
                 </Router>
                 <Register activeTab={this.state.activeTab} handleTab={this.handleTab} showPop={this.showPop} hidePop={this.hidePop} visible={this.state.registration}/>

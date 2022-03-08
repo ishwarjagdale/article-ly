@@ -3,7 +3,7 @@ import Navigation from "../Components/Navigation";
 import HeroSection from "../Components/HeroSection";
 import StoryCard from "../Components/StoryCard";
 import Footer from "../Components/Footer";
-import {get_posts} from "../api/ArticlesAPI";
+import {get_posts, getSaved} from "../api/ArticlesAPI";
 
 class Home extends React.Component {
     constructor(props) {
@@ -17,8 +17,9 @@ class Home extends React.Component {
 
     componentDidMount() {
         document.title = "Journal";
-        let data = get_posts();
+        let data = this.props.saved ? getSaved() : get_posts();
         data.then(res => {
+            console.log(res);
             this.setState({
                 posts: res,
                 loaded: true
@@ -33,6 +34,7 @@ class Home extends React.Component {
                 <Navigation transparent appState={this.props.appState} registerPop={this.props.registerPop} className={"text-white"}/>
                 <HeroSection appState={this.props.appState} registerPop={this.props.registerPop}/>
                 <div id={"content"} className={"mt-24 container md:my-8 p-4 md:p-0 w-full max-w-[1440px] h-full mx-auto"}>
+                    { this.props.saved && <h2 className={"p-4 text-2xl font-bold font-ssp border-b-2 mb-4 md:mb-8"}>Saved Stories</h2> }
                     {/* <StoryCard featured/><hr className={"my-4"}/> */}
                     {
                         this.state.loaded ?
