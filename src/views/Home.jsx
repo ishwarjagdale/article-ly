@@ -33,7 +33,7 @@ class Home extends React.Component {
             <>
                 <Navigation transparent appState={this.props.appState} registerPop={this.props.registerPop} className={"text-white"}/>
                 <HeroSection appState={this.props.appState} registerPop={this.props.registerPop}/>
-                <div id={"content"} className={"mt-24 container md:my-8 p-4 md:p-0 w-full max-w-[1440px] h-full mx-auto"}>
+                <div id={"content"} className={"md:mt-12 container md:my-8 p-4 md:p-0 w-full max-w-[1440px] h-full mx-auto"}>
                     { this.props.saved && <h2 className={"p-4 text-2xl font-bold font-ssp border-b-2 mb-4 md:mb-8"}>Saved Stories</h2> }
                     {/* <StoryCard featured/><hr className={"my-4"}/> */}
                     {
