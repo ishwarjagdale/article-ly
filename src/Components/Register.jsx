@@ -53,7 +53,7 @@ class Register extends React.Component {
                 <Transition appear show={this.props.visible} as={Fragment}>
                     <Dialog
                         as="div"
-                        className="fixed inset-0 z-10 overflow-y-auto backdrop-blur-sm bg-black bg-opacity-40"
+                        className="fixed inset-0 z-50 overflow-y-auto backdrop-blur-sm bg-black bg-opacity-40"
                         onClose={this.props.hidePop}
                     >
                         <div className="min-h-screen px-4 text-center">
