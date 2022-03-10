@@ -25,7 +25,7 @@ class StoryCard extends React.Component {
                                 <img className={"rounded-full mr-2 w-[1.6rem] h-6 border-2 border-black"}
                                      src={this.props.post.author.img}
                                      alt={"author"}/>
-                                <span className={"mr-2 text-sm font-semibold"}>{this.props.post.author.name}</span>
+                                <span className={"mr-2 text-sm font-medium"}>{this.props.post.author.name}</span>
                             </a>
                         </div>
                         <a href={this.props.post.url}>

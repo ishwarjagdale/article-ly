@@ -321,7 +321,7 @@ html {
 
 
 .ck-content {
-    font-family: Georgia, "Times New Roman", sans-serif;
+    font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
 }
 
@@ -333,7 +333,7 @@ html {
 
 .ck-content p, .ck-content {
     color: rgba(0,0,0,.8)!important;
-    font-family: Georgia,Times New Roman,Times,serif;
+    font-family: "Source Sans Pro",Times,serif;
     font-size: 16px;
     font-weight: 400;
     letter-spacing: .2px;
@@ -341,10 +341,6 @@ html {
     word-break: keep-all;
     word-spacing: 0.5px;
     margin: 16px 0;
-}
-
-.ck-content>ul>li>strong {
-    font-size: 14px;
 }
 
 .ck-content figure {
