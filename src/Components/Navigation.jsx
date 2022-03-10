@@ -73,7 +73,7 @@ class Navigation extends React.Component {
                                 <Menu.Item as={"li"} className={"flex-col items-center"}>
                                     { this.props.appState.user ? <>
                                         <a href={`/@${this.props.appState.user.username}`}>
-                                            <img className={"w-24 mb-4 rounded-3xl"}
+                                            <img className={"w-24 mx-auto mb-4 rounded-3xl"}
                                                  src={this.props.appState.user.image_url} alt={"user"}/>
                                             <h3 className={"tracking-wide font-medium font-ssp mb-4"}>{this.props.appState.user.name}</h3>
                                         </a>
