@@ -28,6 +28,9 @@ async function uploadImage(image, fileCat) {
     ).then((res) => {
         if(res.status === 200) {
             return res.data;
+        } else {
+            alert("Something went wrong while uploading...")
+            return false;
         }
     })
 }

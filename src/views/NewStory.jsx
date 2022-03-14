@@ -51,7 +51,7 @@ class NewStory extends React.Component {
         console.log(file)
         uploadImage(file, e.target.ariaLabel).then((data) => {
             console.log(data);
-            document.getElementById("thumbnail_image").src = data.url;
+            if(data) document.getElementById("thumbnail_image").src = data.url;
             window.busy = false;
         })
     }

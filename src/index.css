@@ -84,8 +84,7 @@ body, #root {
 }
 
 .profile-header {
-    background-image: url("https://storage.googleapis.com/dotted-tube-339407.appspot.com/uploads/1/2022-02-22%2009%3A10%3A35.867347_profile-header.webp");
-    background-position: top;
+    background-position: bottom;
     background-size: cover;
     background-repeat: no-repeat;
 }

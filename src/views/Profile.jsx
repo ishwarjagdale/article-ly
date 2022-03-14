@@ -1,10 +1,12 @@
-import React from "react";
+import React, {Fragment} from "react";
 import Navigation from "../Components/Navigation";
 import Footer from "../Components/Footer";
-import {Menu} from "@headlessui/react";
-import {getUser} from "../api/AuthAPI";
+import {Dialog, Menu, Transition} from "@headlessui/react";
+import {getUser, ReloadUser} from "../api/AuthAPI";
 import {get_post} from "../api/ArticlesAPI";
 import {checkFollow, follow, unfollow} from "../api/ProfilesAPI";
+import {uploadImage} from "../api/DashAPI";
+import axios from "axios";
 
 
 class StorySnip extends React.Component {
@@ -165,8 +167,21 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            profileSettings: true,
+        };
         this.handleProfile = this.handleProfile.bind(this);
+        this.showPop = this.showPop.bind(this);
+        this.hidePop = this.hidePop.bind(this);
+        this.getFile = this.getFile.bind(this);
+    }
+
+    showPop() {
+        this.setState({profileSettings: true});
+    }
+
+    hidePop() {
+        this.setState({profileSettings: false});
     }
 
     handleProfile() {
@@ -177,23 +192,162 @@ class Profile extends React.Component {
         }
     }
 
+
     componentDidMount() {
         window.addEventListener('scroll', this.handleProfile);
         console.log(window.location.pathname);
         getUser(window.location.pathname.slice(2)).then(r => {
                 console.log(r.response);
                 document.title = r.response.name;
-                this.setState({userProfile: r.response, loaded: true})
+                this.setState({userProfile: r.response, loaded: true});
+                if(r.response.bg_image_url) document.getElementById("profile-header").style.backgroundImage = `url('${r.response.bg_image_url}')`
             }
         );
     }
 
+    getFile(e) {
+        window.busy = true
+        let file = e.target.files[0]
+        console.log(file)
+        uploadImage(file, e.target.ariaLabel).then((data) => {
+            console.log(data);
+            if(data) {
+                this.setState(state => {state.userProfile.bg_image_url = data.url})
+                document.getElementById("profile-header").style.backgroundImage = `url('${data.url + "?no-cache-" + Date.now()}')`
+                document.getElementById(e.target.ariaLabel).src = data.url + "?no-cache-" + Date.now();
+                e.target.value = ""
+            }
+            window.busy = false;
+        })
+    }
+
     render() {
+
+        const ProfileSettings = () => {
+            return <>
+                <Transition appear show={this.state.profileSettings} as={Fragment}>
+                    <Dialog
+                        as="div"
+                        className="fixed inset-0 z-10 overflow-y-auto backdrop-blur-md"
+                        onClose={this.hidePop}
+                    >
+                        <div className="min-h-screen px-4 text-center">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0"
+                                enterTo="opacity-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                            >
+                                <Dialog.Overlay className="fixed inset-0" />
+                            </Transition.Child>
+
+                            {/* This element is to trick the browser into centering the modal contents. */}
+                            <span
+                                className="inline-block h-screen align-middle"
+                                aria-hidden="true"
+                            />
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 scale-95"
+                                enterTo="opacity-100 scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 scale-100"
+                                leaveTo="opacity-0 scale-95"
+                            >
+                                <div className="inline-block w-full max-w-[720px] p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                                    <Dialog.Title
+                                        as="h3"
+                                        className="text-lg font-medium leading-6 text-gray-900"
+                                    >
+                                        Edit Profile
+                                    </Dialog.Title>
+                                    <svg xmlns="http://www.w3.org/2000/svg" onClick={this.hidePop} className="cursor-pointer absolute right-0 top-0 m-6 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                    <div className={"mt-4"}>
+                                        <div className={"relative flex-1 justify-center flex"}>
+                                            <input onInput={this.getFile} aria-label={"bg_image"} type={"file"} accept={"image/*"} name={"image_url"} id={"bg_image-picker"} hidden/>
+                                            { this.state.userProfile.bg_image_url ?
+                                                <>
+                                                    <div onClick={() => document.getElementById("bg_image-picker").click()}
+                                                         className={"p-8 w-full h-full absolute flex items-center justify-center bg-black bg-opacity-75 opacity-0 hover:opacity-100 cursor-pointer transition-all duration-300 ease"}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+                                                             viewBox="0 0 24 24" stroke="white">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                        </svg>
+                                                    </div>
+                                                    <img src={this.state.userProfile.bg_image_url} id={"bg_image"} className={"rounded aspect-[18/4] object-cover object-bottom"} />
+                                                </> :
+                                                <>
+                                                    <div onClick={() => document.getElementById("bg_image-picker").click()}
+                                                        className={"border-dashed rounded aspect-[18/4] cursor-pointer w-full border-2 flex items-center justify-center"}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#535353" strokeWidth={2}>
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                        </svg>
+                                                    </div>
+                                                </>
+                                            }
+                                        </div>
+                                    </div>
+                                    { /* <div className={"flex mt-2"}>
+                                        <div className={"relative justify-center flex"}>
+                                            <input onInput={this.getFile} aria-label={"profileImage"} type={"file"}
+                                                   accept={"image/*"} name={"image_url"} id={"profile-picker"} hidden/>
+                                            <div onClick={() => document.getElementById("profile-picker").click()}
+                                                 className={"p-8 w-full h-full absolute flex items-center justify-center bg-black bg-opacity-75 opacity-0 hover:opacity-100 cursor-pointer transition-all duration-300 ease"}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+                                                     viewBox="0 0 24 24" stroke="white">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                </svg>
+                                            </div>
+                                            <img className={`w-32 mx-auto md:w-44 w-auto rounded-md`}
+                                                 src={this.state.userProfile.image_url + "?no-cache"}
+                                                 id={"profileImage"}
+                                                 alt={"profile image"}/>
+                                        </div>
+                                        <div className={"relative px-4 pt-4 flex-1 flex flex-col"}>
+                                            <div className={"pb-4 w-full h-fit flex-col w-full"}>
+                                                <h3 className={"font-bold text-md"}>Name</h3>
+                                                <input defaultValue={this.state.userProfile.name} type={"text"}
+                                                       className={"font-medium w-full flex-1 outline-0 py-2 border-b-2 border-dotted"}
+                                                       name={"name"} placeholder={"Your Name"} required/>
+                                            </div>
+                                            <div className={"pb-4 w-full h-fit flex-col w-full"}>
+                                                <h3 className={"font-bold text-md"}>Bio</h3>
+                                                <input defaultValue={this.state.userProfile.bio} type={"text"}
+                                                       className={"font-medium w-full flex-1 outline-0 py-2 border-b-2 border-dotted"}
+                                                       name={"bio"} placeholder={"Your Bio"} required/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="mt-4">
+                                        <button id={"saveProfileSettings"} className={"inline-flex w-full justify-center items-center py-1 px-2 font-medium transition-all duration-300 ease text-sm hover:bg-black hover:text-white border-2 border-black rounded-3xl"}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg> <span>Save</span>
+                                        </button>
+                                    </div>
+                                    */ }
+                                </div>
+                            </Transition.Child>
+                        </div>
+                    </Dialog>
+                </Transition>
+            </>
+        }
+
         return (
             this.state.loaded ?
                 <>
+                    {this.props.appState.user.id === this.state.userProfile.id && <ProfileSettings/>}
                     <Navigation appState={this.props.appState} registerPop={this.props.registerPop} transparent className={"text-white fixed"}/>
-                    <header aria-label={"nav-switch"} className={"w-full h-96 md:h-[400px] profile-header"}>
+                    <header id={"profile-header"} aria-label={"nav-switch"} className={`w-full h-96 md:h-[400px] profile-header bg-gradient-to-r from-cyan-500 to-blue-500`}>
                         <div className={"backdrop-blur-[4px] w-full h-full flex items-center justify-center"}>
                             <h1 className={"text-4xl whitespace-pre-wrap px-8 text-center md:-mb-20 md:text-5xl cascadia-code-pl font-extrabold text-white"}>{this.state.userProfile.name}</h1>
                         </div>
@@ -201,14 +355,17 @@ class Profile extends React.Component {
                     <div className={"flex-1 md:min-h-[500px]"}>
                         <div className={"py-8 px-[10vw] lg:px-[10vw] w-full border-b-2 mx-auto flex items-center justify-between"}>
                             <ul className={"interactions"}><li className={"font-medium"}>{this.state.userProfile.followers} Followers</li><li><button>About</button></li></ul>
-                            <Menu as={"div"} id={"user-menu"}>
-                                <Menu.Button as={"button"}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                            <div id={"user-menu"}>
+                                {this.props.appState.user.id === this.state.userProfile.id && <button onClick={this.showPop}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                              d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
                                     </svg>
-                                </Menu.Button>
-                            </Menu>
+                                </button>}
+                            </div>
                         </div>
+
                         <div className={"flex flex-col items-center relative w-full"}>
                             <div className={"xl:absolute xl:pt-6 top-0 container md:my-8 py-8 px-2 md:p-4 md:p-0 w-full max-w-[1440px]"} id={"side-profile"}>
                                 <div className={"w-full justify-center xl:w-60 flex flex-wrap xl:flex-col xl:ml-6 2xl:ml-8"}>

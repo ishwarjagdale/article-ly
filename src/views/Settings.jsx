@@ -69,7 +69,7 @@ class Settings extends React.Component {
         console.log(file)
         uploadImage(file, e.target.ariaLabel).then((data) => {
             console.log(data);
-            document.getElementById("profileImage").src = data.url;
+            if(data) document.getElementById("profileImage").src = data.url + "?no-cache";
             window.busy = false;
         })
     }
