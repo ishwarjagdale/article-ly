@@ -168,7 +168,7 @@ class Profile extends React.Component {
         super(props);
 
         this.state = {
-            profileSettings: true,
+            profileSettings: false,
         };
         this.handleProfile = this.handleProfile.bind(this);
         this.showPop = this.showPop.bind(this);
@@ -200,7 +200,7 @@ class Profile extends React.Component {
                 console.log(r.response);
                 document.title = r.response.name;
                 this.setState({userProfile: r.response, loaded: true});
-                if(r.response.bg_image_url) document.getElementById("profile-header").style.backgroundImage = `url('${r.response.bg_image_url}')`
+                if(r.response.bg_image_url) document.getElementById("profile-header").style.backgroundImage = `url('${r.response.bg_image_url + "?" + Date.now()}')`
             }
         );
     }
@@ -281,7 +281,7 @@ class Profile extends React.Component {
                                                                   d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                                         </svg>
                                                     </div>
-                                                    <img src={this.state.userProfile.bg_image_url} id={"bg_image"} className={"rounded aspect-[18/4] object-cover object-bottom"} />
+                                                    <img src={this.state.userProfile.bg_image_url + `?${Date.now()}`} id={"bg_image"} className={"rounded aspect-[18/4] object-cover object-bottom"} />
                                                 </> :
                                                 <>
                                                     <div onClick={() => document.getElementById("bg_image-picker").click()}
