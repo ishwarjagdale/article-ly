@@ -9,8 +9,11 @@ const SAVED_URL = "/saved";
 
 axios.defaults.withCredentials = true;
 
-async function new_post(title, subtitle, content, thumbnailURL, tags, wordCount, user_id) {
-    return await axios.post(API_URL + NEW_POST_URL,
+async function new_post(title, subtitle, content, thumbnailURL, tags, wordCount, user_id, draft, edit=false, postID=0) {
+    let URL = API_URL + NEW_POST_URL;
+    if(edit)
+        URL = API_URL + GET_POST_URL + postID + "/edit"
+    return await axios.post(URL,
         {
             "title": title,
             "subtitle": subtitle,
@@ -19,10 +22,17 @@ async function new_post(title, subtitle, content, thumbnailURL, tags, wordCount,
             "author": user_id,
             "tags": tags,
             "wordCount": wordCount,
+            "draft": draft
         }).then(res => {
         if (res.data["resp_code"] === 200) {
             localStorage.removeItem("new-story");
-            window.location.href = `/s/${title.replace(" ", "-")}-${res.data["response"]}`;
+            if(edit)
+                if(draft)
+                    window.location.href = "/";
+                else
+                    window.location.href = window.location.pathname.replace("/edit", "");
+            else
+                window.location.href = `/s/${title.replace(" ", "-")}-${res.data["response"]}`;
         } else {
             window.alert("An error occurred while publishing your story. Please save it and try again later.");
         }
@@ -54,6 +64,47 @@ async function get_post(postID) {
     });
 }
 
+async function del_post(postID, action) {
+    let URL = API_URL + GET_POST_URL + postID + "/edit"
+    if(action === 'delete') {
+        return await axios.delete(
+            URL
+        ).then(res => {
+            if(res.data.resp_code === 200) {
+                console.log("STORY ID:", postID, "DELETED");
+                return true;
+            } else {
+                window.alert("ERROR: " + res.data.response);
+                return false;
+            }
+        });
+    }
+    else if(action === 'patch') {
+        return await axios.patch(
+            URL
+        ).then(res => {
+            if(res.data.resp_code === 200) {
+                console.log("STORY ID:", postID, "Drafted");
+                return true;
+            } else {
+                window.alert("ERROR: " + res.data.response);
+                return false;
+            }
+        });
+    }
+    else {
+        return await axios.get(
+            URL
+        ).then(res => {
+            if(res.data.resp_code === 200) {
+                return res.data.response
+            } else {
+                window.alert("ERROR: " + res.data.response);
+            }
+        });
+    }
+}
+
 async function search(string) {
     return await axios.get(API_URL + SEARCH_URL + "?query=" + string).then((res) => {
         if(res.data.resp_code === 200)
@@ -79,4 +130,4 @@ async function getSaved() {
     })
 }
 
-export { new_post, get_posts, get_post, likePost, search, getSaved };
+export { new_post, get_posts, get_post, likePost, search, getSaved, del_post };

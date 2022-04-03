@@ -18,7 +18,7 @@ body, #root {
     outline: none;
     border: none;
     width: 100%;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
     font-family: "Source Sans Pro", sans-serif;
     margin-top: 0.25rem;
 }
@@ -96,7 +96,7 @@ body, #root {
 
 .hero {
     background-image: url('https://storage.googleapis.com/dotted-tube-339407.appspot.com/assets/img/hero-background.webp');
-    background-position-y: center;
+    background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -153,7 +153,6 @@ body, #root {
     height: 100vh;
     background-color: rgba(0,0,0,0.8);
     backdrop-filter: blur(2px);
-    right: 0;
     transition: all 0.5s ease;
     color: white!important;
 }
@@ -195,7 +194,8 @@ body, #root {
 @media only screen and (min-width: 1280px) {
     .side-profile {
         position: fixed!important;
-        top: 82px;
+        top: 108px;
+        left: 216px;
     }
 }
 

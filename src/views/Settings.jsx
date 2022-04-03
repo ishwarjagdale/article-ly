@@ -15,7 +15,6 @@ class Settings extends React.Component {
                 name: '',
                 bio: '',
                 image_url: '',
-                username: '',
                 email: '',
             },
             loaded: false,
@@ -87,6 +86,14 @@ class Settings extends React.Component {
                             this.state.loaded ?
                                 <>
                                     <div className={"flex-col p-4 w-full flex w-full md:max-w-md"}>
+                                        <h3 className={"font-bold text-lg py-2"}>Username & URL</h3>
+                                        <div className={"flex items-center"}>
+                                            <label className={"mr-2"}>Username:</label>
+                                            <input value={this.state.setting.username} type={"text"} className={"font-medium flex-1 outline-0 p-2 border-b-2 border-dotted"} name={"username"} placeholder={"Your Username"} disabled/>
+                                        </div>
+                                        <p className={"pt-2 text-sm text-gray-600 max-w-md"}>Profile URL: https://article-ly.pages.dev/@{this.state.setting.username}</p>
+                                    </div>
+                                    <div className={"flex-col p-4 w-full flex w-full md:max-w-md"}>
                                         <h3 className={"font-bold text-lg py-2"}>Name</h3>
                                         <input onChange={this.handleChange} defaultValue={this.state.setting.name} type={"text"} className={"font-medium outline-0 py-2 border-b-2 border-dotted"} name={"name"} placeholder={"Your Name"} required/>
                                         <p className={"pt-2 text-sm text-gray-600 max-w-md"}>Your name appears on your Profile page, as your byline, and in your responses. It is a required field.</p>
@@ -115,14 +122,7 @@ class Settings extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className={"flex-col p-4 w-full flex w-full md:max-w-md"}>
-                                        <h3 className={"font-bold text-lg py-2"}>Username & URL</h3>
-                                        <div className={"flex items-center"}>
-                                            <label className={"mr-2"}>Username:</label>
-                                            <input onChange={this.handleChange} defaultValue={this.state.setting.username} type={"text"} className={"font-medium flex-1 outline-0 py-2 border-b-2 border-dotted"} name={"username"} placeholder={"Your Username"} required/>
-                                        </div>
-                                        <p className={"pt-2 text-sm text-gray-600 max-w-md"}>Profile URL: https://article-ly.pages.dev/@{this.state.setting.username}</p>
-                                    </div>
+
                                     <div className={"flex-col p-4 w-full flex w-full md:max-w-md"}>
                                         <h3 className={"font-bold text-lg py-2"}>Email Address</h3>
                                         <input onChange={this.handleChange} defaultValue={this.state.setting.email} type={"email"} className={"font-medium flex-1 outline-0 py-2 border-b-2 border-dotted"} name={"email"} placeholder={"Your Email"} required/>

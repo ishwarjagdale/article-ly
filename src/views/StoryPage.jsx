@@ -14,7 +14,7 @@ class StoryPage extends React.Component {
         return (
             <>
                 <Navigation appState={this.props.appState} registerPop={this.props.registerPop}/>
-                <Story postID={window.location.pathname.split("-").pop()}/>
+                <Story postID={window.location.pathname.split("-").pop()} appState={this.props.appState}/>
                 <Footer/>
             </>
         )

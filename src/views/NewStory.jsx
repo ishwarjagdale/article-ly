@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import Navigation from "../Components/Navigation";
 import Footer from "../Components/Footer";
 import {Dialog, Transition} from "@headlessui/react";
-import {new_post} from "../api/ArticlesAPI";
+import {del_post, new_post} from "../api/ArticlesAPI";
 import {uploadImage} from "../api/DashAPI";
 
 
@@ -19,6 +19,7 @@ class NewStory extends React.Component {
             content: "",
             characterCount: 0,
             wordCount: 0,
+            draft: false,
         };
 
         this.showPop = this.showPop.bind(this);
@@ -31,6 +32,9 @@ class NewStory extends React.Component {
     }
 
     handleChange(e) {
+        if(e.target.type === "checkbox")
+            this.setState(state => { state[e.target.name] = e.target.checked });
+        else
         this.setState(state => { state[e.target.name] = e.target.value });
     }
 
@@ -61,8 +65,8 @@ class NewStory extends React.Component {
             if(this.state.title !== "" && this.state.content !== "") {
                 document.getElementById("publishPost").setAttribute("disabled", "true")
                 let thumbnail_image = document.getElementById("thumbnail_image").getAttribute("src")
-                let {content, title, subtitle, tags, wordCount} = this.state;
-                return new_post(title, subtitle, content, thumbnail_image, tags, wordCount, this.props.appState.user.id)
+                let {content, title, subtitle, tags, wordCount, draft} = this.state;
+                return new_post(title, subtitle, content, thumbnail_image, tags, wordCount, this.props.appState.user.id, draft, Boolean(this.props.edit), this.state.id)
             }
             return alert("Your Story must have a title and proper content!")
         } else {
@@ -81,14 +85,22 @@ class NewStory extends React.Component {
     componentDidMount() {
         document.title = "New Story | Journal"
         const script = document.createElement("script");
-        script.src = "js/ckeditor.js";
+        script.src = "/js/ckeditor.js";
         script.crossOrigin = "anonymous";
         script.onload = () => {
             const loader = document.createElement("script");
-            loader.src = "js/initializeCk.js";
+            loader.src = "/js/initializeCk.js";
             document.body.append(loader);
         }
         document.body.append(script);
+
+        if(this.props.edit) {
+            const regex = /(\/s\/)([\w-]{1,})-(?<id>[0-9]{1,})(\/edit)/gm;
+            del_post(regex.exec(window.location.pathname)["groups"].id).then(r => {
+                window.editor.setData(r.content);
+                this.setState({content: r.content, title: r.title, subtitle: r.subtitle, thumbnail: r.thumbnail.url, tags: r.meta.tag, draft: r.meta.draft, id: r.id})
+            })
+        }
 
     }
 
@@ -142,24 +154,29 @@ class NewStory extends React.Component {
                                     <div className="mt-8 preview">
                                         <div className={"relative"}>
                                             <input onChange={this.getFile} aria-label={"thumbnail_image"} type={"file"} name={"thumbnail"} id={"thumb-picker"} hidden/>
-                                            <svg xmlns="http://www.w3.org/2000/svg" onClick={() => document.getElementById("thumb-picker").click()} className="h-full w-full absolute bg-black bg-opacity-75 opacity-0 hover:opacity-100 p-[30%] cursor-pointer transition-all duration-300 ease"  fill="none" viewBox="0 0 24 24" stroke="white">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg>
-                                            <img className={`w-full w-auto rounded-md`}
+                                            <div onClick={() => document.getElementById("thumb-picker").click()} className={"absolute h-full w-full flex items-center justify-center bg-black bg-opacity-75 opacity-0 hover:opacity-100 cursor-pointer transition-all duration-300 ease"}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6"  fill="none" viewBox="0 0 24 24" stroke="white">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                            </div>
+                                            <img
+                                             className={`w-full w-auto rounded-md aspect-[4/2] object-cover`}
                                                  src={this.state.thumbnail || "/img/thumbnail.png"}
                                                  alt={"thumbnail-preview"}
                                                  id={"thumbnail_image"}
                                             />
                                         </div>
-                                        <input type={"text"} name={"title"} className={"text-xl font-bold"} placeholder={"Title"} required
+                                        <input type={"text"} name={"title"} defaultValue={this.state.title} className={"text-xl font-bold"} placeholder={"Title"} required
                                                onChange={this.handleChange} />
-                                        <input type={"text"} name={"subtitle"} className={"font-ssp font-light"} placeholder={"Subtitle"} required
+                                        <input type={"text"} name={"subtitle"} defaultValue={this.state.subtitle} className={"font-ssp font-light"} placeholder={"Subtitle"} required
                                                onChange={this.handleChange} />
-                                        <div className={"story-meta my-4"}>
-                                            <input type={"text"} name={"tags"} className={"font-ssp font-medium text-[14px]"} placeholder={"Tags ( comma separated )"} required
+                                        <div className={"story-meta items-center flex my-4"}>
+                                            <span># </span><input type={"text"} name={"tags"} defaultValue={this.state.tags} className={"font-ssp font-medium text-[14px]"} placeholder={"Tags ( comma separated )"} required
                                                 onChange={this.handleChange} />
                                         </div>
-
+                                    </div>
+                                    <div className={"story-meta items-center flex mb-2 mx-2"}>
+                                        <input type={"checkbox"} name={"draft"} defaultChecked={this.state.draft} className={"font-ssp mr-2 font-light"} onChange={this.handleChange} /> <i>Save as draft</i>
                                     </div>
 
                                     <div className="mt-4">

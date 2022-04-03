@@ -31,7 +31,7 @@ class HeroSection extends React.Component {
                 <header aria-label={"nav-switch"} className={`w-screen h-screen md:h-[480px] hero font-['Source Sans Pro']`}>
                     <div className={"w-full h-full backdrop-blur-md bg-black bg-opacity-60 flex justify-center items-center"}>
                         <div
-                            className={"flex-col md:p-20 lg:p-42 z-20 lg:max-w-[1680px] w-full"}>
+                            className={"flex-col md:p-20 lg:p-42 z-20 lg:max-w-[1680px] w-full flex items-start"}>
                             <a href={"/"}>
                                 <img src={"/img/journal-1.png"} className={"w-96 mb-2 mx-auto md:mx-0"} alt={"journal-logo"}/>
                             </a>

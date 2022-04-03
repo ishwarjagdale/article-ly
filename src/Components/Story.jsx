@@ -1,5 +1,6 @@
-import React from "react";
-import {get_post, likePost} from "../api/ArticlesAPI";
+import React, {createElement} from "react";
+import {del_post, get_post, likePost} from "../api/ArticlesAPI";
+import EditorsTools from "./EditorsTools";
 
 class Story extends React.Component {
     constructor(props) {
@@ -10,6 +11,8 @@ class Story extends React.Component {
             loaded: false,
         };
         this.handleLikes = this.handleLikes.bind(this);
+        this.downloadStory = this.downloadStory.bind(this);
+        this.story_action = this.story_action.bind(this);
     }
 
     handleLikes() {
@@ -23,6 +26,28 @@ class Story extends React.Component {
                 }
             }
         });
+    }
+
+    story_action(action) {
+        del_post(this.state.post.id, action).then((res) => {
+            if(res) {
+                window.location.href = "/";
+            } else {
+                window.location.reload();
+            }
+        })
+    }
+
+    downloadStory() {
+        let data = JSON.stringify(this.state.post);
+        console.log(data);
+        let anchor = document.createElement('a');
+        const file = new Blob([data], {type: 'text/json'});
+        anchor.href = URL.createObjectURL(file);
+        anchor.download = `${this.state.post.title}-${this.state.post.id}.json`;
+        anchor.style.visibility = "hidden";
+        anchor.click()
+
     }
 
     componentDidMount() {
@@ -40,7 +65,7 @@ class Story extends React.Component {
         return (
             <>
                 <div id={"content"}
-                     className={"mt-16 container p-4 md:p-0 w-full max-w-[1440px] mx-auto flex justify-center flex-col items-center"}>
+                     className={"mt-16 container p-4 md:p-0 w-full max-w-[1440px] mx-auto flex justify-center flex-col items-center relative"}>
                     {
                         this.state.loaded ?
                         <article className={"w-full md:w-10/12 max-w-[720px]"}>
@@ -87,6 +112,9 @@ class Story extends React.Component {
                                     </div>
                                 </div>
                         </div>
+                        {
+                            this.state.loaded && this.state.post.author.id === this.props.appState.user.id && <EditorsTools action={this.story_action} download={this.downloadStory}/>
+                        }
                         <div className={"ck-content w-full"} dangerouslySetInnerHTML={{__html: this.state.post.content}}>
 
                         </div>

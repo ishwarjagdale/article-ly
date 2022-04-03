@@ -61,6 +61,7 @@ class App extends React.Component {
                         <Route path={"/new-story"} element={<AuthRoutes><NewStory appState={this.state}/></AuthRoutes>} />
                         <Route path={"/settings"} element={<AuthRoutes><Settings appState={this.state}/></AuthRoutes>} />
                         <Route path={"/saved"} element={<Home registerPop={this.showPop} appState={this.state} saved />} />
+                        <Route path={"/s/:postURL/edit"} element={<AuthRoutes><NewStory edit appState={this.state}/></AuthRoutes>} />
                     </Routes>
                 </Router>
                 <Register activeTab={this.state.activeTab} handleTab={this.handleTab} showPop={this.showPop} hidePop={this.hidePop} visible={this.state.registration}/>
