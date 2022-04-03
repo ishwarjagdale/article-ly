@@ -90,18 +90,19 @@ class NewStory extends React.Component {
         script.onload = () => {
             const loader = document.createElement("script");
             loader.src = "/js/initializeCk.js";
+            loader.onload = () => {
+                if(this.props.edit) {
+                    document.title = "Edit Story | Journal"
+                    const regex = /(\/s\/)([\w-]{1,})-(?<id>[0-9]{1,})(\/edit)/gm;
+                    del_post(regex.exec(window.location.pathname)["groups"].id).then(r => {
+                        window.editor.setData(r.content);
+                        this.setState({content: r.content, title: r.title, subtitle: r.subtitle, thumbnail: r.thumbnail.url, tags: r.meta.tag, draft: r.meta.draft, id: r.id})
+                    })
+                }
+            }
             document.body.append(loader);
         }
         document.body.append(script);
-
-        if(this.props.edit) {
-            const regex = /(\/s\/)([\w-]{1,})-(?<id>[0-9]{1,})(\/edit)/gm;
-            del_post(regex.exec(window.location.pathname)["groups"].id).then(r => {
-                window.editor.setData(r.content);
-                this.setState({content: r.content, title: r.title, subtitle: r.subtitle, thumbnail: r.thumbnail.url, tags: r.meta.tag, draft: r.meta.draft, id: r.id})
-            })
-        }
-
     }
 
     render() {
