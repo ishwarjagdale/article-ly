@@ -147,6 +147,7 @@ body, #root {
     outline: none;
     position: fixed;
     top: 0;
+    left: 0;
     min-width: 350px;
     max-width: 450px;
     width: 30vw;
