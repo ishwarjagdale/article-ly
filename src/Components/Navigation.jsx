@@ -204,7 +204,7 @@ class Navigation extends React.Component {
                                     <li>
                                         <Menu as={"div"} id={"user-menu"} className={"flex justify-center"}>
                                             <Menu.Button as={"div"}>
-                                                <img className={"w-9 border-2 border-black rounded-3xl border-2"} src={this.props.appState.user.image_url} alt={"user"} />
+                                                <img className={"w-9 border-2 border-black rounded-3xl border-2 aspect-square"} src={this.props.appState.user.image_url + "?today=" + (new Date()).toDateString()} alt={"user"} />
                                             </Menu.Button>
                                             <Transition
                                                 as={Fragment}

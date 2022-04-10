@@ -58,6 +58,8 @@ async function get_post(postID) {
     ).then(res => {
         if(res.data.resp_code === 200) {
             return res.data.response
+        } else if(res.data.resp_code === 401) {
+            return false
         } else {
             window.alert("ERROR: " + res.data.response);
         }

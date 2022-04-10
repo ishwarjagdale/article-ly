@@ -35,4 +35,18 @@ async function uploadImage(image, fileCat) {
     })
 }
 
-export {getUserSettings, uploadImage};
+async function get_drafts(userID) {
+    return await axios.get(
+        API_URL + "/api/drafts/" + userID
+    ).then(res => {
+        if(res.data.resp_code === 200) {
+            return res.data.response
+        } else if(res.data.resp_code === 401) {
+            return false
+        } else {
+            window.alert("ERROR: " + res.data.response);
+        }
+    });
+}
+
+export {getUserSettings, uploadImage, get_drafts};

@@ -1,12 +1,17 @@
 import React, {Fragment} from "react";
 import Navigation from "../Components/Navigation";
 import Footer from "../Components/Footer";
-import {Dialog, Menu, Transition} from "@headlessui/react";
+import {Dialog, Menu, Transition, Tab} from "@headlessui/react";
 import {getUser, ReloadUser} from "../api/AuthAPI";
-import {get_post} from "../api/ArticlesAPI";
+import {del_post, get_post} from "../api/ArticlesAPI";
 import {checkFollow, follow, unfollow} from "../api/ProfilesAPI";
-import {uploadImage} from "../api/DashAPI";
-import axios from "axios";
+import {get_drafts, uploadImage} from "../api/DashAPI";
+import EditorsTools from "../Components/EditorsTools";
+
+
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+}
 
 
 class StorySnip extends React.Component {
@@ -20,20 +25,28 @@ class StorySnip extends React.Component {
     }
 
     componentDidMount() {
-        let article = get_post(this.props.postID);
-        article.then(res => {
+        if(sessionStorage.hasOwnProperty(this.props.postID)) {
             this.setState({
-                post: res,
+                post: JSON.parse(sessionStorage.getItem(this.props.postID)),
                 loaded: true
             })
-        })
+        } else {
+            let article = get_post(this.props.postID);
+            article.then(res => {
+                sessionStorage.setItem(this.props.postID, JSON.stringify(res));
+                this.setState({
+                    post: res,
+                    loaded: true
+                })
+            })
+        }
     }
 
     render() {
         return (
             <>
                 {
-                    this.state.loaded && <article className={"w-full md:w-10/12 max-w-[720px] z-10"}>
+                    this.state.loaded && this.state.post && <article className={"w-full md:w-10/12 max-w-[720px] z-10"}>
                         <div className={"pt-6 pb-2"}>
                             <a href={this.state.post.url}>
                                 <h1 className={"text-4xl md:text-5xl font-bold font-ssp"}>{this.state.post.title}</h1>
@@ -174,6 +187,7 @@ class Profile extends React.Component {
         this.showPop = this.showPop.bind(this);
         this.hidePop = this.hidePop.bind(this);
         this.getFile = this.getFile.bind(this);
+        this.story_action = this.story_action.bind(this);
     }
 
     showPop() {
@@ -196,13 +210,21 @@ class Profile extends React.Component {
     componentDidMount() {
         window.addEventListener('scroll', this.handleProfile);
         console.log(window.location.pathname);
+        if(!this.state.loaded)
         getUser(window.location.pathname.slice(2)).then(r => {
                 console.log(r.response);
                 document.title = r.response.name;
-                this.setState({userProfile: r.response, loaded: true});
-                if(r.response.bg_image_url) document.getElementById("profile-header").style.backgroundImage = `url('${r.response.bg_image_url + "?" + Date.now()}')`
+                if(r.response.id === this.props.appState.user.id) {
+                    get_drafts(r.response.id).then(q => {
+                        this.setState({userProfile: { ...r.response, drafts: q}, loaded: true})
+                        if(r.response.bg_image_url) document.getElementById("profile-header").style.backgroundImage = `url('${r.response.bg_image_url + "?today=" + (new Date()).toDateString()}')`
+                    })
+                } else {
+                    this.setState({userProfile: r.response, loaded: true})
+                    if(r.response.bg_image_url) document.getElementById("profile-header").style.backgroundImage = `url('${r.response.bg_image_url + "?today=" + (new Date()).toDateString()}')`
+                }
             }
-        );
+        )
     }
 
     getFile(e) {
@@ -218,6 +240,16 @@ class Profile extends React.Component {
                 e.target.value = ""
             }
             window.busy = false;
+        })
+    }
+
+    story_action(id, action) {
+        del_post(id, action).then((res) => {
+            if(res) {
+                window.location.href = "/";
+            } else {
+                window.location.reload();
+            }
         })
     }
 
@@ -366,8 +398,8 @@ class Profile extends React.Component {
                     </div>
                     <div className={"w-full h-full flex flex-wrap flex-1 md:min-h-[500px] justify-center"}>
                         <div className={"xl:flex-1 p-4 h-full w-full"}>
-                            <div id={"side-profile"} className={"w-full justify-center xl:w-60 flex flex-wrap xl:flex-col xl:ml-auto xl:m-4"}>
-                                <img className={"w-44"} src={this.state.userProfile.image_url} alt={"author"}/>
+                            <div id={"side-profile"} className={"w-full hidden xl:block justify-center xl:w-60 flex flex-wrap xl:flex-col xl:ml-auto xl:m-4"}>
+                                <img className={"w-full rounded-2xl object-cover"} src={this.state.userProfile.image_url + "?today=" + (new Date()).toDateString()} alt={"author"}/>
                                 <div className={"flex-col"}>
                                     <span className={"font-bold py-2 block text-lg font-ssp"}>{this.state.userProfile.name}</span>
                                     <p className={"text-sm text-gray-600 w-44 md:w-60"}>
@@ -377,9 +409,58 @@ class Profile extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className={"xl:flex-[2] p-4 h-full flex flex-col items-center w-fit border-x"}>
+                        <div className={"xl:flex-[2] p-4 pt-0 h-auto flex flex-col items-center w-fit border-x"}>
                             {
-                                this.state.userProfile.posts.map((post) => <StorySnip postID={post}/>)
+                                this.state.userProfile.id === this.props.appState.user.id ?
+                                    <Tab.Group as={"div"} className={"w-full transition-all duration-300 ease-in"}>
+                                        <Tab.List className={"flex justify-center items-center"}>
+                                            <Tab key={0} className={({selected}) => classNames("rounded-bl-3xl border-2 w-[110px] border-black px-4 py-2 font-medium border-r-0", selected && "bg-black text-white")}>
+                                                Published
+                                            </Tab>
+                                            <Tab key={1} className={({selected}) => classNames("rounded-br-3xl border-2 w-[110px] border-black px-4 py-2 font-medium border-l-0", selected && "bg-black text-white")}>
+                                                Draft
+                                            </Tab>
+                                        </Tab.List>
+                                        <Tab.Panels>
+                                            <Tab.Panel key={0} className={"flex flex-col items-center"}>
+                                                {
+                                                    this.state.userProfile.posts.map((post) => <StorySnip key={post.id} postID={post}/>)
+                                                }
+                                            </Tab.Panel>
+                                            <Tab.Panel key={1} className={"flex flex-col items-center"}>
+                                                {
+                                                    this.state.userProfile.drafts ? this.state.userProfile.drafts.length === 0 ? <i>No drafts</i> : this.state.userProfile.drafts.map((draft) => <>
+                                                    <article className={"w-full md:w-10/12 max-w-[720px] z-10 border-b"}>
+                                                        <div className={"pt-6 pb-2 flex flex-col items-center"}>
+                                                            <a href={draft.url + "/edit"} className={"w-full"}>
+                                                                <h1 className={"text-4xl md:text-2xl font-bold mb-2 font-ssp"}>{draft.title}</h1>
+                                                                <span className={"story-meta"}>
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                                    </svg> {new Date(draft.meta.date_published).toDateString()}
+                                                                </span>
+                                                            </a>
+                                                            <EditorsTools download={() => {
+                                                                let data = JSON.stringify(draft);
+                                                                console.log(data);
+                                                                let anchor = document.createElement('a');
+                                                                const file = new Blob([data], {type: 'text/json'});
+                                                                anchor.href = URL.createObjectURL(file);
+                                                                anchor.download = `${draft.title}-${draft.id}.json`;
+                                                                anchor.style.visibility = "hidden";
+                                                                anchor.click()
+                                                            }} v2={true} action={(a) => this.story_action(draft.id, a)} patch={true} editURL={draft.url + "/edit"} />
+                                                        </div>
+                                                    </article>
+                                                    </>) : null
+                                                }
+                                            </Tab.Panel>
+                                        </Tab.Panels>
+                                    </Tab.Group> :
+                                    this.state.userProfile.posts.map((post) => <StorySnip key={post.id} postID={post}/>)
                             }
                         </div>
                         <div className={"xl:flex-1 p-4 w-full h-full"}/>

@@ -10,7 +10,7 @@ class StoryCard extends React.Component {
     render() {
         return (
             <div className={this.props.className}>
-                <div className={`flex flex-wrap md:flex-nowrap md:px-4 md:py-2 rounded-2xl flex-row-reverse justify-between max-w-3xl pb-4 border-b mb-4 md:mb-0 md:border-0 bg-white`}>
+                <div className={`flex flex-wrap md:flex-nowrap md:px-4 md:py-2 rounded-2xl flex-row-reverse justify-between max-w-3xl pb-4 border-b mb-4 md:mb-0 md:border-0`}>
                     <div className={"relative"}>
 
                         <a href={this.props.post.url} className={"relative"}>
@@ -22,7 +22,7 @@ class StoryCard extends React.Component {
                     <div className={"md:p-4 flex-1 flex-col w-full md:w-6/12 lg:max-w-[600px] px-2"}>
                         <div className={"flex my-2"}>
                             <a href={this.props.post.author.url} className={"flex items-center"}>
-                                <img className={"rounded-full mr-2 w-[1.6rem] h-6 border-2 border-black"}
+                                <img className={"rounded-full mr-2 w-[24px] aspect-square"}
                                      src={this.props.post.author.img}
                                      alt={"author"}/>
                                 <span className={"mr-2 text-sm font-medium"}>{this.props.post.author.name}</span>
