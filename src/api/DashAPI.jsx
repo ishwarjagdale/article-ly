@@ -49,4 +49,19 @@ async function get_drafts(userID) {
     });
 }
 
-export {getUserSettings, uploadImage, get_drafts};
+
+async function post_message(query) {
+    return await axios.post(
+        API_URL + "/api/contact",
+        query
+    ).then((res) => {
+        if(res.data.resp_code === 200) {
+            return true
+        } else {
+            console.log(res.data.response)
+            return false
+        }
+    })
+}
+
+export {getUserSettings, uploadImage, get_drafts, post_message};

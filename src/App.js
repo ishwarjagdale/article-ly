@@ -7,6 +7,7 @@ import Settings from "./views/Settings";
 import Register from "./Components/Register";
 import React from "react";
 import {LoadUser, Logout} from "./api/AuthAPI";
+import Contact from "./views/Contact";
 
 const AuthRoutes = ({children}) => {
     let location = useLocation();
@@ -62,6 +63,7 @@ class App extends React.Component {
                         <Route path={"/settings"} element={<AuthRoutes><Settings appState={this.state}/></AuthRoutes>} />
                         <Route path={"/saved"} element={<Home registerPop={this.showPop} appState={this.state} saved />} />
                         <Route path={"/s/:postURL/edit"} element={<AuthRoutes><NewStory edit appState={this.state}/></AuthRoutes>} />
+                        <Route path={"/contact"} element={<Contact appState={this.state} registerPop={this.showPop}/>} />
                     </Routes>
                 </Router>
                 <Register activeTab={this.state.activeTab} handleTab={this.handleTab} showPop={this.showPop} hidePop={this.hidePop} visible={this.state.registration}/>

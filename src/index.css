@@ -453,3 +453,13 @@ h1:focus {
     margin-bottom: 10px;
     border-bottom: 2px solid black;
 }
+
+.success {
+    background-color: green;
+    color: white;
+}
+
+.failed {
+    background-color: red;
+    color: white;
+}
