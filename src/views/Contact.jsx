@@ -32,9 +32,9 @@ class Contact extends React.Component {
         e.preventDefault()
         post_message(this.state).then((res) => {
             if(res) {
-                e.target.classList.add("success")
+                document.getElementById("submitBtn").classList.add("success")
             } else {
-                e.target.classList.add("failed")
+                document.getElementById("submitBtn").classList.add("failed")
             }
         })
     }
@@ -55,16 +55,16 @@ class Contact extends React.Component {
                 <Navigation transparent appState={this.props.appState} registerPop={this.props.registerPop} className={"text-white"}/>
                 <HeroSection appState={this.props.appState} registerPop={this.props.registerPop}/>
                 <div id={"content"} className={"md:mt-12 container md:my-8 p-4 md:p-0 w-full max-w-[1440px] h-full mx-auto"}>
-                    <form className={"font-[monospace] flex flex-col text-[20px] max-w-[720px] mx-auto"}>
-                        <input onChange={this.handleChange} type={"text"} name={"name"} className={"my-2 outline-none border border-gray-500 rounded-2xl px-4 py-2"} placeholder={"Name"} required />
-                        <input onChange={this.handleChange} type={"email"} name={"email"} className={"my-2 outline-none border border-gray-500 rounded-2xl px-4 py-2"} placeholder={"Email"} required />
+                    <form onSubmit={this.handleSubmit} className={"font-[monospace] flex flex-col text-[20px] max-w-[720px] mx-auto"}>
+                        <input onChange={this.handleChange} type={"text"} name={"name"} className={"my-2 outline-none border border-gray-500 rounded-2xl px-4 py-2"} placeholder={"Name"} required={true} />
+                        <input onChange={this.handleChange} type={"email"} name={"email"} className={"my-2 outline-none border border-gray-500 rounded-2xl px-4 py-2"} placeholder={"Email"} required={true} />
                         <div className={"flex items-center py-4"}>
                             <input onChange={this.handleChange} type={"checkbox"} className={"w-8 h-4 outline-none"} id={"bug_report"} name={"bug_report"}/>
                             <label htmlFor={"bug_report"} className={"text-[20px] text-gray-600"}>Is it about a bug? 🥲</label>
                         </div>
-                        <textarea onChange={this.handleChange} name={"message"} maxLength={1000} className={"my-2 outline-none min-h-[200px] border border-gray-500 rounded-2xl px-4 py-2"} required placeholder={"Your message..."}/>
+                        <textarea onChange={this.handleChange} name={"message"} maxLength={1000} className={"my-2 outline-none min-h-[200px] border border-gray-500 rounded-2xl px-4 py-2"} required={true} placeholder={"Your message..."}/>
                         <div className={"my-2"}>
-                            <button onClick={this.handleSubmit} className={"text-[20px] border border-gray-500 font-bold px-4 py-2 rounded-2xl text-gray-200 bg-black hover:text-white"}>Submit</button>
+                            <button id={"submitBtn"} type={"submit"} className={"text-[20px] border border-gray-500 font-bold px-4 py-2 rounded-2xl text-gray-200 bg-black hover:text-white"}>Submit</button>
                         </div>
                     </form>
                 </div>

@@ -399,7 +399,7 @@ class Profile extends React.Component {
                     <div className={"w-full h-full flex flex-wrap flex-1 md:min-h-[500px] justify-center"}>
                         <div className={"xl:flex-1 p-4 h-full w-full"}>
                             <div id={"side-profile"} className={"w-full hidden xl:block justify-center xl:w-60 flex flex-wrap xl:flex-col xl:ml-auto xl:m-4"}>
-                                <img className={"w-full rounded-2xl object-cover"} src={this.state.userProfile.image_url + "?today=" + (new Date()).toDateString()} alt={"author"}/>
+                                <img className={"w-full rounded-2xl aspect-square object-cover"} src={this.state.userProfile.image_url + "?today=" + (new Date()).toDateString()} alt={"author"}/>
                                 <div className={"flex-col"}>
                                     <span className={"font-bold py-2 block text-lg font-ssp"}>{this.state.userProfile.name}</span>
                                     <p className={"text-sm text-gray-600 w-44 md:w-60"}>
