@@ -10,7 +10,7 @@ class StoryCard extends React.Component {
     render() {
         return (
             <div className={this.props.className}>
-                <div className={`flex flex-wrap md:flex-nowrap md:px-4 md:py-2 rounded-2xl flex-row-reverse justify-between max-w-3xl pb-4 border-b mb-4 md:mb-0 md:border-0`}>
+                <div className={`flex flex-wrap mx-auto md:flex-nowrap md:px-4 md:py-2 rounded-2xl flex-row-reverse justify-between max-w-3xl pb-4 border-b mb-4 md:mb-0 md:border-0`}>
                     <div className={"relative"}>
 
                         <a href={this.props.post.url} className={"relative"}>
