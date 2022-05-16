@@ -17,7 +17,7 @@ class Footer extends React.Component {
                             } alt={"journal-logo"}/>
                             <span className={"text-sm text-gray-300 font-medium text-ubuntu mx-4"}>Copyright © 2021</span>
                         </div>
-                        <div className={"flex items-center mt-4 md:m-0 text-gray-200"}>
+                        <div className={"flex hidden md:block items-center mt-4 md:m-0 text-gray-200"}>
                             <a href={"/contact"}>Contact</a>
                         </div>
                     </div>

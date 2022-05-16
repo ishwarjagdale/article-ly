@@ -62,8 +62,9 @@ async function getUser(username) {
     return await axios.get(GET_USER_URL + "/" + username).then(res => {
         if(res.data["resp_code"] === 200) {
             return res.data;
+        } else {
+            return res.data["resp_code"];
         }
-        return res.data;
     })
 }
 

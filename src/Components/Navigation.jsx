@@ -148,6 +148,11 @@ class Navigation extends React.Component {
                                             </a>
                                         </li>
                                     </Menu.Item>
+                                    <Menu.Item>
+                                        <div className={"flex mt-auto mb-4 justify-center items-center mt-4 md:m-0 text-gray-200"}>
+                                            <a href={"/contact"}>Contact</a>
+                                        </div>
+                                    </Menu.Item>
                                 </Menu.Items>
                             </Menu>
                         </div>

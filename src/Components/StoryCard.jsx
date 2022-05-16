@@ -10,11 +10,11 @@ class StoryCard extends React.Component {
     render() {
         return (
             <div className={this.props.className}>
-                <div className={`flex flex-wrap mx-auto md:flex-nowrap md:px-4 md:py-2 rounded-2xl flex-row-reverse justify-between max-w-3xl pb-4 border-b mb-4 md:mb-0 md:border-0`}>
+                <div className={`flex flex-wrap md:flex-nowrap md:px-4 md:py-2 rounded-2xl justify-between max-w-3xl pb-4 border-b mb-4 md:mb-0 md:border-0`}>
                     <div className={"relative"}>
 
                         <a href={this.props.post.url} className={"relative"}>
-                            <img className={`md:h-[150px] md:w-[250px] object-cover w-full w-auto mb-2 md:m-4 rounded-md`}
+                            <img className={`aspect-[2/1] md:aspect-[5/3] md:max-h-[180px] object-cover w-full w-auto mb-2 md:m-4 rounded-md`}
                                  src={this.props.post.thumbnail.url}
                                  alt={"featured-story-thumbnail"}/>
                         </a>

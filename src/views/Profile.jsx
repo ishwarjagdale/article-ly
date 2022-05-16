@@ -182,6 +182,7 @@ class Profile extends React.Component {
 
         this.state = {
             profileSettings: false,
+            error: false,
         };
         this.handleProfile = this.handleProfile.bind(this);
         this.showPop = this.showPop.bind(this);
@@ -212,16 +213,20 @@ class Profile extends React.Component {
         console.log(window.location.pathname);
         if(!this.state.loaded)
         getUser(window.location.pathname.slice(2)).then(r => {
-                console.log(r.response);
-                document.title = r.response.name;
-                if(r.response.id === this.props.appState.user.id) {
-                    get_drafts(r.response.id).then(q => {
-                        this.setState({userProfile: { ...r.response, drafts: q}, loaded: true})
+                if(r.resp_code === 200) {
+                    console.log(r.response);
+                    document.title = r.response.name;
+                    if(r.response.id === this.props.appState.user.id) {
+                        get_drafts(r.response.id).then(q => {
+                            this.setState({userProfile: { ...r.response, drafts: q}, loaded: true})
+                            if(r.response.bg_image_url) document.getElementById("profile-header").style.backgroundImage = `url('${r.response.bg_image_url + "?today=" + (new Date()).toDateString()}')`
+                        })
+                    } else {
+                        this.setState({userProfile: r.response, loaded: true})
                         if(r.response.bg_image_url) document.getElementById("profile-header").style.backgroundImage = `url('${r.response.bg_image_url + "?today=" + (new Date()).toDateString()}')`
-                    })
+                    }
                 } else {
-                    this.setState({userProfile: r.response, loaded: true})
-                    if(r.response.bg_image_url) document.getElementById("profile-header").style.backgroundImage = `url('${r.response.bg_image_url + "?today=" + (new Date()).toDateString()}')`
+                    this.setState({error: r});
                 }
             }
         )
@@ -376,65 +381,70 @@ class Profile extends React.Component {
 
         return (
             this.state.loaded ?
-                <>
+                    <>
                     {this.props.appState.user.id === this.state.userProfile.id && <ProfileSettings/>}
                     <Navigation appState={this.props.appState} registerPop={this.props.registerPop} transparent className={"text-white fixed"}/>
-                    <header id={"profile-header"} aria-label={"nav-switch"} className={`w-full h-96 md:h-[400px] profile-header bg-gradient-to-r from-cyan-500 to-blue-500`}>
-                        <div className={"backdrop-blur-[4px] w-full h-full flex items-center justify-center"}>
-                            <h1 className={"text-4xl whitespace-pre-wrap px-8 text-center md:-mb-20 md:text-5xl cascadia-code-pl font-extrabold text-white"}>{this.state.userProfile.name}</h1>
-                        </div>
-                    </header>
-                    <div className={"py-8 px-[10vw] lg:px-[10vw] w-full border-b-2 mx-auto flex items-center justify-between"}>
-                        <ul className={"interactions"}><li className={"font-medium"}>{this.state.userProfile.followers} Followers</li><li><button>About</button></li></ul>
-                        <div id={"user-menu"}>
-                            {this.props.appState.user.id === this.state.userProfile.id && <button onClick={this.showPop}>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
-                                     viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                          d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
-                                </svg>
-                            </button>}
-                        </div>
-                    </div>
-                    <div className={"w-full h-full flex flex-wrap flex-1 md:min-h-[500px] justify-center"}>
-                        <div className={"xl:flex-1 p-4 h-full w-full"}>
-                            <div id={"side-profile"} className={"w-full hidden xl:block justify-center xl:w-60 flex flex-wrap xl:flex-col xl:ml-auto xl:m-4"}>
-                                <img className={"w-full rounded-2xl aspect-square object-cover"} src={this.state.userProfile.image_url + "?today=" + (new Date()).toDateString()} alt={"author"}/>
-                                <div className={"flex-col"}>
-                                    <span className={"font-bold py-2 block text-lg font-ssp"}>{this.state.userProfile.name}</span>
-                                    <p className={"text-sm text-gray-600 w-44 md:w-60"}>
-                                        {this.state.userProfile.bio}
-                                    </p>
-                                    <FollowButton appState={this.props.appState} registerPop={this.props.registerPop} profile={this.state.userProfile}/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={"xl:flex-[2] p-4 pt-0 h-auto flex flex-col items-center w-fit border-x"}>
-                            {
-                                this.state.userProfile.id === this.props.appState.user.id ?
-                                    <Tab.Group as={"div"} className={"w-full transition-all duration-300 ease-in"}>
-                                        <Tab.List className={"flex justify-center items-center"}>
-                                            <Tab key={0} className={({selected}) => classNames("rounded-bl-3xl border-2 w-[110px] border-black px-4 py-2 font-medium border-r-0", selected && "bg-black text-white")}>
-                                                Published
-                                            </Tab>
-                                            <Tab key={1} className={({selected}) => classNames("rounded-br-3xl border-2 w-[110px] border-black px-4 py-2 font-medium border-l-0", selected && "bg-black text-white")}>
-                                                Draft
-                                            </Tab>
-                                        </Tab.List>
-                                        <Tab.Panels>
-                                            <Tab.Panel key={0} className={"flex flex-col items-center"}>
-                                                {
-                                                    this.state.userProfile.posts.map((post) => <StorySnip key={post.id} postID={post}/>)
-                                                }
-                                            </Tab.Panel>
-                                            <Tab.Panel key={1} className={"flex flex-col items-center"}>
-                                                {
-                                                    this.state.userProfile.drafts ? this.state.userProfile.drafts.length === 0 ? <i>No drafts</i> : this.state.userProfile.drafts.map((draft) => <>
-                                                    <article className={"w-full md:w-10/12 max-w-[720px] z-10 border-b"}>
-                                                        <div className={"pt-6 pb-2 flex flex-col items-center"}>
-                                                            <a href={draft.url + "/edit"} className={"w-full"}>
-                                                                <h1 className={"text-4xl md:text-2xl font-bold mb-2 font-ssp"}>{draft.title}</h1>
-                                                                <span className={"story-meta"}>
+                        {
+                            this.state.error ?
+                                "404"
+                                :
+                                <>
+                                    <header id={"profile-header"} aria-label={"nav-switch"} className={`w-full h-96 md:h-[400px] profile-header bg-gradient-to-r from-cyan-500 to-blue-500`}>
+                                        <div className={"backdrop-blur-[4px] w-full h-full flex items-center justify-center"}>
+                                            <h1 className={"text-4xl whitespace-pre-wrap px-8 text-center md:-mb-20 md:text-5xl cascadia-code-pl font-extrabold text-white"}>{this.state.userProfile.name}</h1>
+                                        </div>
+                                    </header>
+                                    <div className={"py-8 px-[10vw] lg:px-[10vw] w-full border-b-2 mx-auto flex items-center justify-between"}>
+                                        <ul className={"interactions"}><li className={"font-medium"}>{this.state.userProfile.followers} Followers</li><li><button>About</button></li></ul>
+                                        <div id={"user-menu"}>
+                                            {this.props.appState.user.id === this.state.userProfile.id && <button onClick={this.showPop}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+                                                     viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                          d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                                                </svg>
+                                            </button>}
+                                        </div>
+                                    </div>
+                                    <div className={"w-full h-full flex flex-wrap flex-1 md:min-h-[500px] justify-center"}>
+                                        <div className={"xl:flex-1 p-4 h-full w-full"}>
+                                            <div id={"side-profile"} className={"w-full hidden xl:block justify-center xl:w-60 flex flex-wrap xl:flex-col xl:ml-auto xl:m-4"}>
+                                                <img className={"w-full rounded-2xl aspect-square object-cover"} src={this.state.userProfile.image_url + "?today=" + (new Date()).toDateString()} alt={"author"}/>
+                                                <div className={"flex-col"}>
+                                                    <span className={"font-bold py-2 block text-lg font-ssp"}>{this.state.userProfile.name}</span>
+                                                    <p className={"text-sm text-gray-600 w-44 md:w-60"}>
+                                                        {this.state.userProfile.bio}
+                                                    </p>
+                                                    <FollowButton appState={this.props.appState} registerPop={this.props.registerPop} profile={this.state.userProfile}/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className={"xl:flex-[2] p-4 pt-0 h-auto flex flex-col items-center w-fit border-x"}>
+                                            {
+                                                this.state.userProfile.id === this.props.appState.user.id ?
+                                                    <Tab.Group as={"div"} className={"w-full transition-all duration-300 ease-in"}>
+                                                        <Tab.List className={"flex justify-center items-center"}>
+                                                            <Tab key={0} className={({selected}) => classNames("rounded-bl-3xl border-2 w-[110px] border-black px-4 py-2 font-medium border-r-0", selected && "bg-black text-white")}>
+                                                                Published
+                                                            </Tab>
+                                                            <Tab key={1} className={({selected}) => classNames("rounded-br-3xl border-2 w-[110px] border-black px-4 py-2 font-medium border-l-0", selected && "bg-black text-white")}>
+                                                                Draft
+                                                            </Tab>
+                                                        </Tab.List>
+                                                        <Tab.Panels>
+                                                            <Tab.Panel key={0} className={"flex flex-col items-center"}>
+                                                                {
+                                                                    this.state.userProfile.posts.map((post) => <StorySnip key={post.id} postID={post}/>)
+                                                                }
+                                                            </Tab.Panel>
+                                                            <Tab.Panel key={1} className={"flex flex-col items-center"}>
+                                                                {
+                                                                    this.state.userProfile.drafts ? this.state.userProfile.drafts.length === 0 ? <i>No drafts</i> : this.state.userProfile.drafts.map((draft) => <>
+                                                                        <article className={"w-full md:w-10/12 max-w-[720px] z-10 border-b"}>
+                                                                            <div className={"pt-6 pb-2 flex flex-col items-center"}>
+                                                                                <a href={draft.url + "/edit"} className={"w-full"}>
+                                                                                    <h1 className={"text-4xl md:text-2xl font-bold mb-2 font-ssp"}>{draft.title}</h1>
+                                                                                    <span className={"story-meta"}>
                                                                     <svg
                                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                         viewBox="0 0 24 24" stroke="currentColor">
@@ -442,35 +452,35 @@ class Profile extends React.Component {
                                                                           d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                                                     </svg> {new Date(draft.meta.date_published).toDateString()}
                                                                 </span>
-                                                            </a>
-                                                            <EditorsTools download={() => {
-                                                                let data = JSON.stringify(draft);
-                                                                console.log(data);
-                                                                let anchor = document.createElement('a');
-                                                                const file = new Blob([data], {type: 'text/json'});
-                                                                anchor.href = URL.createObjectURL(file);
-                                                                anchor.download = `${draft.title}-${draft.id}.json`;
-                                                                anchor.style.visibility = "hidden";
-                                                                anchor.click()
-                                                            }} v2={true} action={(a) => this.story_action(draft.id, a)} patch={true} editURL={draft.url + "/edit"} />
-                                                        </div>
-                                                    </article>
-                                                    </>) : null
-                                                }
-                                            </Tab.Panel>
-                                        </Tab.Panels>
-                                    </Tab.Group> :
-                                    this.state.userProfile.posts.map((post) => <StorySnip key={post.id} postID={post}/>)
-                            }
-                        </div>
-                        <div className={"xl:flex-1 p-4 w-full h-full"}/>
-                    </div>
+                                                                                </a>
+                                                                                <EditorsTools download={() => {
+                                                                                    let data = JSON.stringify(draft);
+                                                                                    console.log(data);
+                                                                                    let anchor = document.createElement('a');
+                                                                                    const file = new Blob([data], {type: 'text/json'});
+                                                                                    anchor.href = URL.createObjectURL(file);
+                                                                                    anchor.download = `${draft.title}-${draft.id}.json`;
+                                                                                    anchor.style.visibility = "hidden";
+                                                                                    anchor.click()
+                                                                                }} v2={true} action={(a) => this.story_action(draft.id, a)} patch={true} editURL={draft.url + "/edit"} />
+                                                                            </div>
+                                                                        </article>
+                                                                    </>) : null
+                                                                }
+                                                            </Tab.Panel>
+                                                        </Tab.Panels>
+                                                    </Tab.Group> :
+                                                    this.state.userProfile.posts.map((post) => <StorySnip key={post.id} postID={post}/>)
+                                            }
+                                        </div>
+                                        <div className={"xl:flex-1 p-4 w-full h-full"}/>
+                                    </div>
+                                </>
+                        }
                     <Footer/>
                 </>
                 :
-                <>
-
-                </>
+                <div className={"w-screen h-screen loading"}/>
         )
     }
 
