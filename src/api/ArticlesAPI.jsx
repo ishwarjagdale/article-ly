@@ -132,4 +132,18 @@ async function getSaved() {
     })
 }
 
-export { new_post, get_posts, get_post, likePost, search, getSaved, del_post };
+
+async function get_populars() {
+    return await axios.get(
+        API_URL + "/populars"
+    ).then((res) => {
+        if(res.data["resp_code"] === 200) {
+            return res.data.response;
+        }
+    }).catch((e) => {
+        console.log(e);
+        return [];
+    });
+}
+
+export { new_post, get_posts, get_post, likePost, search, getSaved, del_post, get_populars };

@@ -3,7 +3,7 @@ import Navigation from "../Components/Navigation";
 import HeroSection from "../Components/HeroSection";
 import StoryCard from "../Components/StoryCard";
 import Footer from "../Components/Footer";
-import {get_posts, getSaved} from "../api/ArticlesAPI";
+import {get_populars, get_posts, getSaved} from "../api/ArticlesAPI";
 
 class Home extends React.Component {
     constructor(props) {
@@ -12,6 +12,7 @@ class Home extends React.Component {
         this.state = {
             posts: [],
             loaded: false,
+            populars: false,
         };
     }
 
@@ -24,6 +25,13 @@ class Home extends React.Component {
                 posts: res,
                 loaded: true
             })
+        }).then(() => {
+            if(!this.props.saved) {
+                get_populars().then((res) => {
+                    console.log(res);
+                    this.setState({populars: res});
+                });
+            }
         })
 
     }
@@ -63,8 +71,46 @@ class Home extends React.Component {
                                 </>
                         }
                     </div>
-                    <div id={"side-content"} className={"flex-1 md:mt-8 w-full max-w-[450px] min-w-[350px]"}>
-
+                    <div id={"side-content"} className={"flex-1 md:mt-8 w-full xl:max-w-[450px] min-w-[350px]"}>
+                        {
+                            this.state.populars || this.state.populars.length ?
+                            <>
+                                <div id={"pops-section"} className={"p-8 w-full"}>
+                                    <h3 className={"font-bold font-ssp text-xl pb-2 border-b border-black w-full "}>Popular Posts</h3>
+                                    <ul className={"flex mt-4 flex-col"}>
+                                        {
+                                            this.state.populars.map((pop) => {
+                                                return <li>
+                                                    <a href={pop.url} className={"flex my-2"}>
+                                                        <img src={pop.thumbnail.url} className={"aspect-[3/2] max-h-[40px] rounded-sm object-cover"} />
+                                                        <h2 className={"font-bold ml-4 font-ssp text-[18px]"}>{pop.title}</h2>
+                                                    </a>
+                                                </li>
+                                            })
+                                        }
+                                    </ul>
+                                </div>
+                            </>
+                                :
+                                <div className={"md:p-4 flex-col w-full max-w-[600px] px-6"}>
+                                    <div className={"flex flex-col my-2"}>
+                                        <div className={"h-[20px] w-6/12 mr-4 loading"}/>
+                                        <div className={"h-[8px] w-full my-2 loading"}/>
+                                    </div>
+                                    <div className={"flex mb-3 items-center"}>
+                                        <div className={"aspect-[3/2] h-[40px] rounded-sm object-cover loading"} />
+                                        <div className={"h-[40px] ml-4 w-9/12  loading"}/>
+                                    </div>
+                                    <div className={"flex mb-3 items-center"}>
+                                        <div className={"aspect-[3/2] h-[40px] rounded-sm object-cover loading"} />
+                                        <div className={"h-[40px] ml-4 w-4/12 loading"}/>
+                                    </div>
+                                    <div className={"flex mb-3 items-center"}>
+                                        <div className={"aspect-[3/2] h-[40px] rounded-sm object-cover loading"} />
+                                        <div className={"h-[40px] ml-4 w-full loading"}/>
+                                    </div>
+                                </div>
+                        }
                     </div>
                 </div>
                 <Footer/>
