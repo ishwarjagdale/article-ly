@@ -459,9 +459,9 @@ h1:focus {
     color: white;
 }
 
-.image-style-side {
+figure.image-style-side {
     float: right;
-    margin: 0 2rem;
+    margin: 0 2rem!important;
 }
 
 .image-resized {
