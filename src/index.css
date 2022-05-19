@@ -458,3 +458,12 @@ h1:focus {
     background-color: red;
     color: white;
 }
+
+.image-style-side {
+    float: right;
+    margin: 0 2rem;
+}
+
+.image-resized {
+    margin: 0 auto;
+}
