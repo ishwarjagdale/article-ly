@@ -39,9 +39,9 @@ async function new_post(title, subtitle, content, thumbnailURL, tags, wordCount,
     });
 }
 
-async function get_posts() {
+async function get_posts(tag=null) {
     return await axios.get(
-        API_URL + GET_POSTS_URL
+        API_URL + GET_POSTS_URL + (tag ? `?tag=${tag.toString()}` : "" )
     ).then(
         (res) => {
             if(res.data.resp_code === 200)
@@ -146,4 +146,17 @@ async function get_populars() {
     });
 }
 
-export { new_post, get_posts, get_post, likePost, search, getSaved, del_post, get_populars };
+async function get_tags() {
+    return await axios.get(
+        API_URL + "/tags"
+    ).then((res) => {
+        if(res.data["resp_code"] === 200) {
+            return res.data.response;
+        }
+    }).catch((e) => {
+        console.log(e);
+        return [];
+    });
+}
+
+export { new_post, get_posts, get_post, likePost, search, getSaved, del_post, get_populars, get_tags };

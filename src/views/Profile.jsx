@@ -419,7 +419,7 @@ class Profile extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className={"xl:flex-[2] p-4 pt-0 h-auto flex flex-col items-center w-fit border-x"}>
+                                        <div className={"xl:flex-[2] p-4 pt-0 h-auto flex flex-col justify-center items-center w-fit border-x"}>
                                             {
                                                 this.state.userProfile.id === this.props.appState.user.id ?
                                                     <Tab.Group as={"div"} className={"w-full transition-all duration-300 ease-in"}>
@@ -434,7 +434,7 @@ class Profile extends React.Component {
                                                         <Tab.Panels>
                                                             <Tab.Panel key={0} className={"flex flex-col items-center"}>
                                                                 {
-                                                                    this.state.userProfile.posts.map((post) => <StorySnip key={post.id} postID={post}/>)
+                                                                    this.state.userProfile.posts.length !== 0 ? this.state.userProfile.posts.map((post) => <StorySnip key={post.id} postID={post}/>) : <i>Looks like someone forgot to write!</i>
                                                                 }
                                                             </Tab.Panel>
                                                             <Tab.Panel key={1} className={"flex flex-col items-center"}>
@@ -469,8 +469,9 @@ class Profile extends React.Component {
                                                                 }
                                                             </Tab.Panel>
                                                         </Tab.Panels>
-                                                    </Tab.Group> :
-                                                    this.state.userProfile.posts.map((post) => <StorySnip key={post.id} postID={post}/>)
+                                                    </Tab.Group>
+                                                    :
+                                                    this.state.userProfile.posts.length !== 0 ? this.state.userProfile.posts.map((post) => <StorySnip key={post.id} postID={post}/>) : <i>Looks like someone forgot to write!</i>
                                             }
                                         </div>
                                         <div className={"xl:flex-1 p-4 w-full h-full"}/>

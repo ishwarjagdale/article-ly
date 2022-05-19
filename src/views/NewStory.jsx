@@ -66,7 +66,7 @@ class NewStory extends React.Component {
                 document.getElementById("publishPost").setAttribute("disabled", "true")
                 let thumbnail_image = document.getElementById("thumbnail_image").getAttribute("src")
                 let {content, title, subtitle, tags, wordCount, draft} = this.state;
-                return new_post(title, subtitle, content, thumbnail_image, tags, wordCount, this.props.appState.user.id, draft, Boolean(this.props.edit), this.state.id)
+                return new_post(title, subtitle, content, thumbnail_image, tags.toLowerCase(), wordCount, this.props.appState.user.id, draft, Boolean(this.props.edit), this.state.id)
             }
             return alert("Your Story must have a title and proper content!")
         } else {
@@ -94,6 +94,12 @@ class NewStory extends React.Component {
                 if(this.props.edit) {
                     document.title = "Edit Story | Journal"
                     const regex = /(\/s\/)([\w-]{1,})-(?<id>[0-9]{1,})(\/edit)/gm;
+                    /*
+                    HEYYY!!!!!!
+                    You are not deleting a post here,
+                    remember you were just lazy to code new functions so u added all functionalities in one
+                    🥲
+                     */
                     del_post(regex.exec(window.location.pathname)["groups"].id).then(r => {
                         window.editor.setData(r.content);
                         this.setState({content: r.content, title: r.title, subtitle: r.subtitle, thumbnail: r.thumbnail.url, tags: r.meta.tag, draft: r.meta.draft, id: r.id})
@@ -172,7 +178,7 @@ class NewStory extends React.Component {
                                         <input type={"text"} name={"subtitle"} defaultValue={this.state.subtitle} className={"font-ssp font-light"} placeholder={"Subtitle"} required
                                                onChange={this.handleChange} />
                                         <div className={"story-meta items-center flex my-4"}>
-                                            <span># </span><input type={"text"} name={"tags"} defaultValue={this.state.tags} className={"font-ssp font-medium text-[14px]"} placeholder={"Tags ( comma separated )"} required
+                                            <span># </span><input type={"text"} name={"tags"} defaultValue={this.state.tags} className={"font-ssp font-medium text-[14px]"} placeholder={"Tags ( space separated )"} required
                                                 onChange={this.handleChange} />
                                         </div>
                                     </div>
