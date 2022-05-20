@@ -1,4 +1,5 @@
 import React from 'react';
+import {notify} from "../js/notifier";
 
 class StoryCard extends React.Component {
     constructor(props) {
@@ -61,13 +62,20 @@ class StoryCard extends React.Component {
                                 <svg onClick={() => {
                                     try {
                                         let stories = localStorage.getItem("saved-stories");
-                                        if(!stories) {stories = new Set([this.props.post.id])} else {stories = new Set([this.props.post.id.toString(), ...stories.split(" ")])}
-                                        console.log(stories);
-                                        localStorage.setItem('saved-stories', [...stories].join(" "));
-                                        alert(`"${this.props.post.title}" saved!`);
+                                        if(this.props.saved) {
+                                            stories.replace(this.props.post.id.toString(), "");
+                                            localStorage.setItem("saved-stories", stories);
+                                            notify(`"${this.props.post.title}" removed!`, "info");
+                                            this.componentWillUnmount();
+                                        } else {
+                                            if(!stories) {stories = new Set([this.props.post.id])} else {stories = new Set([this.props.post.id.toString(), ...stories.split(" ")])}
+                                            console.log(stories);
+                                            localStorage.setItem('saved-stories', [...stories].join(" "));
+                                            notify(`"${this.props.post.title}" saved!`, "success");
+                                        }
                                     } catch (e) {
                                         console.log(e);
-                                        alert("Something went wrong, try again later!")
+                                        notify("Something went wrong, try again later!", "failed");
                                     }
                                 }} xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 hover:fill-gray-600 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="grey">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />

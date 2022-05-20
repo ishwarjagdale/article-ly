@@ -65,7 +65,7 @@ class Story extends React.Component {
         return (
             <>
                 <div id={"content"}
-                     className={"mt-16 container p-4 md:p-0 w-full max-w-[1440px] mx-auto flex justify-center flex-col items-center relative"}>
+                     className={"mt-16 container p-4 md:p-0 w-full max-w-[1440px] mx-auto flex-1 flex justify-center flex-col items-center relative"}>
                     {
                         this.state.loaded ?
                         <article className={"w-full md:w-10/12 max-w-[720px]"}>
@@ -124,7 +124,7 @@ class Story extends React.Component {
                                 <span className={"text-sm font-ssp font-medium mr-2"}>Tags: </span>
                                 <div className={"story-meta"}>
                                     {
-                                        this.state.post.meta.tag.split(",").map((tag) => <span className={"tag mx-2 p-2 rounded-md"}>{String(tag).trim()}</span>)
+                                        this.state.post.meta.tag.split(" ").map((tag) => <a href={"/tag/" + tag.trim()} className={"tag mx-2 p-2 rounded-md"}>{String(tag).trim()}</a>)
                                     }
                                 </div>
                             </div>
@@ -161,7 +161,12 @@ class Story extends React.Component {
                     </article>
                             :
                         <>
-
+                            <div className={"loader"}>
+                                <img id={"nav-brand"} src={"/img/journal-2b.png"} className={"h-48"} alt={"journal-logo"}/>
+                                <div className={"loader-cover"}>
+                                    <div className={"b-loader"}/>
+                                </div>
+                            </div>
                         </>
                     }
                 </div>

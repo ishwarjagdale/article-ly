@@ -53,7 +53,7 @@ class StorySnip extends React.Component {
                             </a>
                             <h3 className={"text-lg mt-4 font-light md:text-2xl font-ssp"}>{this.state.post.subtitle}</h3>
                             <a href={this.state.post.url}>
-                                <img className={"py-4"} src={this.state.post.thumbnail.url} alt={this.state.post.title}/>
+                                <img className={"py-4 mx-auto max-h-[400px] object-contain"} src={this.state.post.thumbnail.url} alt={this.state.post.title}/>
                             </a>
                         </div>
                         <div className={`border-b-2`}>
@@ -81,7 +81,7 @@ class StorySnip extends React.Component {
                                     <span className={"text-sm font-ssp font-medium mr-2"}>Tags: </span>
                                     <div className={"story-meta"}>
                                         {
-                                            this.state.post.meta.tag.split(",").map((tag) => <span className={"tag mx-2 p-2 rounded-md"}>{String(tag).trim()}</span>)
+                                            this.state.post.meta.tag.split(" ").map((tag) => <a href={"/tag/" + tag.trim()} className={"tag mx-2 p-2 rounded-md"}>{String(tag).trim()}</a>)
                                         }
                                     </div>
                                 </div>
@@ -481,7 +481,14 @@ class Profile extends React.Component {
                     <Footer/>
                 </>
                 :
-                <div className={"w-screen h-screen loading"}/>
+                <div className={"mt-16 container p-4 md:p-0 w-full max-w-[1440px] mx-auto flex-1 flex justify-center flex-col items-center relative"}>
+                    <div className={"loader max-h-48"}>
+                        <img id={"nav-brand"} src={"/img/journal-2b.png"} className={"h-48"} alt={"journal-logo"}/>
+                        <div className={"loader-cover"}>
+                            <div className={"b-loader"}/>
+                        </div>
+                    </div>
+                </div>
         )
     }
 
