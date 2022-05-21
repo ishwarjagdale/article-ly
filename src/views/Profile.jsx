@@ -419,11 +419,11 @@ class Profile extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className={"xl:flex-[2] p-4 pt-0 h-auto flex flex-col justify-center items-center w-fit border-x"}>
+                                        <div className={"xl:flex-[2] p-4 pt-0 h-auto flex flex-col items-center w-fit border-x"}>
                                             {
                                                 this.state.userProfile.id === this.props.appState.user.id ?
                                                     <Tab.Group as={"div"} className={"w-full transition-all duration-300 ease-in"}>
-                                                        <Tab.List className={"flex justify-center items-center"}>
+                                                        <Tab.List className={"flex justify-center"}>
                                                             <Tab key={0} className={({selected}) => classNames("rounded-bl-3xl border-2 w-[110px] border-black px-4 py-2 font-medium border-r-0", selected && "bg-black text-white")}>
                                                                 Published
                                                             </Tab>
@@ -431,20 +431,21 @@ class Profile extends React.Component {
                                                                 Draft
                                                             </Tab>
                                                         </Tab.List>
-                                                        <Tab.Panels>
-                                                            <Tab.Panel key={0} className={"flex flex-col items-center"}>
-                                                                {
-                                                                    this.state.userProfile.posts.length !== 0 ? this.state.userProfile.posts.map((post) => <StorySnip key={post.id} postID={post}/>) : <i>Looks like someone forgot to write!</i>
-                                                                }
-                                                            </Tab.Panel>
-                                                            <Tab.Panel key={1} className={"flex flex-col items-center"}>
-                                                                {
-                                                                    this.state.userProfile.drafts ? this.state.userProfile.drafts.length === 0 ? <i>No drafts</i> : this.state.userProfile.drafts.map((draft) => <>
-                                                                        <article className={"w-full md:w-10/12 max-w-[720px] z-10 border-b"}>
-                                                                            <div className={"pt-6 pb-2 flex flex-col items-center"}>
-                                                                                <a href={draft.url + "/edit"} className={"w-full"}>
-                                                                                    <h1 className={"text-4xl md:text-2xl font-bold mb-2 font-ssp"}>{draft.title}</h1>
-                                                                                    <span className={"story-meta"}>
+                                                        <div className={"flex items-center justify-center w-full h-full"}>
+                                                            <Tab.Panels>
+                                                                <Tab.Panel key={0} className={"flex flex-col items-center"}>
+                                                                    {
+                                                                        this.state.userProfile.posts.length !== 0 ? this.state.userProfile.posts.map((post) => <StorySnip key={post.id} postID={post}/>) : <i>Looks like someone forgot to write!</i>
+                                                                    }
+                                                                </Tab.Panel>
+                                                                <Tab.Panel key={1} className={"flex flex-col items-center"}>
+                                                                    {
+                                                                        this.state.userProfile.drafts ? this.state.userProfile.drafts.length === 0 ? <i>No drafts</i> : this.state.userProfile.drafts.map((draft) => <>
+                                                                            <article className={"w-full md:w-10/12 max-w-[720px] z-10 border-b"}>
+                                                                                <div className={"pt-6 pb-2 flex flex-col items-center"}>
+                                                                                    <a href={draft.url + "/edit"} className={"w-full"}>
+                                                                                        <h1 className={"text-4xl md:text-2xl font-bold mb-2 font-ssp"}>{draft.title}</h1>
+                                                                                        <span className={"story-meta"}>
                                                                     <svg
                                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                         viewBox="0 0 24 24" stroke="currentColor">
@@ -452,23 +453,24 @@ class Profile extends React.Component {
                                                                           d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                                                     </svg> {new Date(draft.meta.date_published).toDateString()}
                                                                 </span>
-                                                                                </a>
-                                                                                <EditorsTools download={() => {
-                                                                                    let data = JSON.stringify(draft);
-                                                                                    console.log(data);
-                                                                                    let anchor = document.createElement('a');
-                                                                                    const file = new Blob([data], {type: 'text/json'});
-                                                                                    anchor.href = URL.createObjectURL(file);
-                                                                                    anchor.download = `${draft.title}-${draft.id}.json`;
-                                                                                    anchor.style.visibility = "hidden";
-                                                                                    anchor.click()
-                                                                                }} v2={true} action={(a) => this.story_action(draft.id, a)} patch={true} editURL={draft.url + "/edit"} />
-                                                                            </div>
-                                                                        </article>
-                                                                    </>) : null
-                                                                }
-                                                            </Tab.Panel>
-                                                        </Tab.Panels>
+                                                                                    </a>
+                                                                                    <EditorsTools download={() => {
+                                                                                        let data = JSON.stringify(draft);
+                                                                                        console.log(data);
+                                                                                        let anchor = document.createElement('a');
+                                                                                        const file = new Blob([data], {type: 'text/json'});
+                                                                                        anchor.href = URL.createObjectURL(file);
+                                                                                        anchor.download = `${draft.title}-${draft.id}.json`;
+                                                                                        anchor.style.visibility = "hidden";
+                                                                                        anchor.click()
+                                                                                    }} v2={true} action={(a) => this.story_action(draft.id, a)} patch={true} editURL={draft.url + "/edit"} />
+                                                                                </div>
+                                                                            </article>
+                                                                        </>) : null
+                                                                    }
+                                                                </Tab.Panel>
+                                                            </Tab.Panels>
+                                                        </div>
                                                     </Tab.Group>
                                                     :
                                                     this.state.userProfile.posts.length !== 0 ? this.state.userProfile.posts.map((post) => <StorySnip key={post.id} postID={post}/>) : <i>Looks like someone forgot to write!</i>
@@ -481,7 +483,7 @@ class Profile extends React.Component {
                     <Footer/>
                 </>
                 :
-                <div className={"mt-16 container p-4 md:p-0 w-full max-w-[1440px] mx-auto flex-1 flex justify-center flex-col items-center relative"}>
+                <div className={"container p-4 md:p-0 w-full max-w-[1440px] mx-auto flex-1 flex justify-center flex-col items-center relative"}>
                     <div className={"loader max-h-48"}>
                         <img id={"nav-brand"} src={"/img/journal-2b.png"} className={"h-48"} alt={"journal-logo"}/>
                         <div className={"loader-cover"}>

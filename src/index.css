@@ -189,9 +189,7 @@ body, #root {
 
 @media only screen and (min-width: 1280px) {
     .side-profile {
-        position: fixed!important;
-        top: 108px;
-        left: 216px;
+
     }
 }
 
